@@ -1,0 +1,21 @@
+class CarpenterRoute {
+    static carpenterServer = null;
+    customAccessFilter = false; //If true then a failed authentication will be passed through.
+    defaultAccess = 'admin'; // admin, user, public
+    static apiRoutes() {
+        return [
+            { path: (this.routeName + '/'), method: "GET", function: this.defaultGetRoute.bind(this), isAPI: true },
+        ]
+    }
+    async defaultGetRoute(req, res) {
+        try {
+            // Add code to handle soft deletes
+            const data = { status: "Route Not Implemented" }
+            res.json(data);
+        }
+        catch (err) {
+            res.status(500).send(err.message);
+        }
+    }
+}
+module.exports = {  CarpenterRoute };

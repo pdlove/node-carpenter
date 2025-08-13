@@ -1,0 +1,20 @@
+Downloaded files from:
+https://esm.sh/react-dom@19.1.1/client
+This will show you the appropriate imports and you can download the files being imported. 
+Make sure to download the .map file as well.
+In this case I'm downloading the following:
+
+https://esm.sh/react@19.1.1/es2022/react.mjs to ./react.mjs
+https://esm.sh/react@19.1.1/es2022/react.mjs.map to ./react.mjs.map
+
+https://esm.sh/react-dom@19.1.1/es2022/react-dom.mjs to ./react-dom.mjs
+https://esm.sh/react-dom@19.1.1/es2022/react-dom.mjs.map to ./react-dom.mjs.map
+
+https://esm.sh/scheduler@0.26.0/es2022/scheduler.mjs to ./scheduler.mjs
+https://esm.sh/scheduler@0.26.0/es2022/scheduler.mjs.map to ./scheduler.mjs.map
+import "/scheduler@^0.26.0?target=es2022";
+
+https://esm.sh/react-dom@19.1.1/es2022/client.mjs to ./react-dom-client.mjs
+https://esm.sh/react-dom@19.1.1/es2022/client.mjs.map to ./react-dom-client.mjs.map
+
+After downloading update any imports in the mjs files. They are all at the very beginning of the file.

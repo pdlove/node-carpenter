@@ -1,0 +1,108 @@
+import { AppContext } from '/AppContext.js';
+
+import LoginForm from './UserSecurity/LoginForm.jsx';
+const Control4 = React.lazy(() => import('./UserSecurity/LoginForm.jsx'));
+// Placeholder for API base URL
+// This will be proxied by Vite's dev server, so it's relative to the frontend origin
+const API_BASE_URL = '/api';
+
+function App() {
+    const [user, setUser] = React.useState(null);
+    const [view, setView] = React.useState(null);
+    const [message, setMessage] = React.useState('');
+
+    async function tokenCheck() {
+        //TODO: Write this function.
+    }
+
+    React.useEffect(() => {
+        ///TODO: Trigger Token Check. If fails, require login.
+        setMessage('Please log in to access the Cluster Manager.');
+    }, []);
+
+    
+    const handleLoginSuccess = (userObject) => {
+        setUser(userObject);
+        setMessage(`Logged in as: ${user.email}`);
+        setView('dashboard');
+        //TODO: Trigger Token Check and move setUser and setView to tokenCheck.
+    };
+
+    const handleLogout = () => {
+        setUser(null);
+        setMessage('Logged out successfully.');
+        setView('dashboard');
+        //TODO: Hit Logout Endpoint and clear token cookie.
+    };
+
+    return (
+        <AppContext.Provider value={{ user, setMessage, API_BASE_URL }}>
+            {/* Conditional rendering of Login Form or Main App */}
+            {!user ? (
+                <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+                    <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+                        <h2 className="text-2xl font-bold mb-4 text-gray-800">Cluster Manager Login</h2>
+                        {message && <p className="mt-4 text-red-500">{message}</p>}
+                        <LoginForm onLoginSuccess={handleLoginSuccess} />
+                    </div>
+                </div>
+            ) : (
+                <div className="min-h-screen bg-gray-100 font-sans antialiased text-gray-900 flex flex-col">
+                    <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 shadow-md flex justify-between items-center rounded-b-lg">
+                        <h1 className="text-3xl font-extrabold tracking-tight">Cluster Manager</h1>
+                        <div className="flex items-center space-x-4">
+                            <span className="text-sm">User ID: <span className="font-mono bg-blue-700 px-2 py-1 rounded-md">{user.email}</span></span>
+                            <button
+                                onClick={handleLogout}
+                                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* <nav className="bg-white shadow-sm p-3 flex justify-center space-x-6 rounded-t-lg mx-4 mt-4">
+                        <NavItem label="Dashboard" currentView={view} targetView="dashboard" setView={setView} />
+                        <NavItem label="Servers" currentView={view} targetView="servers" setView={setView} />
+                        <NavItem label="Clusters" currentView={view} targetView="clusters" setView={setView} />
+                        <NavItem label="Websites" currentView={view} targetView="websites" setView={setView} />
+                        <NavItem label="HAProxy" currentView={view} targetView="haproxy" setView={setView} />
+                        <NavItem label="Config Manager" currentView={view} targetView="config-manager" setView={setView} />
+                        {currentUserRole === 'site_admin' && (
+                            <NavItem label="User Management" currentView={view} targetView="user-manager" setView={setView} />
+                        )}
+                    </nav>
+
+                    <main className="flex-grow p-6">
+                        {message && (
+                            <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded-lg relative mb-6" role="alert">
+                                <span className="block sm:inline">{message}</span>
+                                <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                    <svg onClick={() => setMessage('')} className="fill-current h-6 w-6 text-blue-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                                </span>
+                            </div>
+                        )}
+
+                        <div className="bg-white p-8 rounded-lg shadow-xl">
+                            {view === 'dashboard' && <Dashboard />}
+                            {view === 'servers' && <ServerManagement />}
+                            {view === 'clusters' && <ClusterManagement />}
+                            {view === 'websites' && <WebsiteManagement />}
+                            {view === 'haproxy' && <HAProxyManagement />}
+                            {view === 'config-manager' && <ConfigManager />}
+                            {view === 'user-manager' && <UserManagement />}
+                        </div>
+                    </main>
+
+                    <footer className="bg-gray-800 text-white p-4 text-center text-sm rounded-t-lg mt-auto">
+                        &copy; {new Date().getFullYear()} Nginx/HAProxy Cluster Manager. All rights reserved.
+                    </footer> */}
+                </div>
+            )}
+        </AppContext.Provider>
+    );
+};
+
+const rootElement = document.getElementById('root');
+ReactDOM.createRoot(rootElement).render(<App />);
+
