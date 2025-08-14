@@ -2,7 +2,7 @@ import pluralize from "pluralize";
 import CarpenterModelRelationship from "./CarpenterModelRelationship.js";
 export { Op, DataTypes } from "sequelize";
 
-export class CarpenterModel {
+export default class CarpenterModel {
     static carpenterServer = null;
     static preferredDatabase = 'sql';
     static sqlSchemaName = null; // If not set, the default schema will be used.

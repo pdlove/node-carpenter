@@ -7,9 +7,10 @@ import bodyParser from "body-parser";
 import { tokenMiddleware } from "./authToken.js"
 import path from "path";
 
+import * as defaultModels from '../models/index.js';
 
 
-export class CarpenterServer {
+export default class CarpenterServer {
     models = {}; // This is a dictionary of models, e.g. { 'user': CarpenterModel }
     routes = {}; // This is a dictionary of routes
     preactFiles = {}; // This is a dictionary of compiled preact files
@@ -20,10 +21,12 @@ export class CarpenterServer {
     constructor(options = {}) {
         this.useFrontEnd = options.useFrontEnd || true;
         this.dbConfig = options.dbConfig || { storage: 'database.sqlite', dialect: 'sqlite'};        
-        this.dbConfig.define = options.dbConfig.define || { underscored: true, freezeTableName: true };        
+        this.dbConfig.define = this.dbConfig.define || { underscored: true, freezeTableName: true };        
         this.dbConfig.define.underscored= true; // Use snake_case for column names - This is forced to be true for consistency. It CAN be overridden in the model definitions        
         //Load the default entries
-        
+        for (const modelName in defaultModels.modelList) {
+            this.AddModel(defaultModels.modelList[modelName]);
+        }
     }
 
     async DatabaseInitialize(dbConfig) {
@@ -246,3 +249,4 @@ export class CarpenterServer {
         }
     }
 }
+

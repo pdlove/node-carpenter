@@ -1,5 +1,6 @@
-import { CarpenterModel, DataTypes } from "../../carpenter/CarpenterModel.js";
-import CarpenterModelRelationship from "../../carpenter/CarpenterModelRelationship.js";
+import CarpenterModel from "../../lib/CarpenterModel.js";
+import CarpenterModelRelationship from "../../lib/CarpenterModelRelationship.js";
+import { DataTypes } from "sequelize";
 import bcrypt from 'bcrypt';
 
 //This is used to hash passwords during the seeding process. Inserting during normal operations should be done in the Password Change functions.

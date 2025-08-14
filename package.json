@@ -1,5 +1,35 @@
 {
-  "devDependencies": {
-    "jest": "^30.0.5"
+  "name": "carpenter",
+  "version": "1.0.0",
+  "description": "Carpenter is a ful framework based around sequelize and react",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdlove/node-carpenter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pdlove/node-carpenter/issues"
+  },
+  "homepage": "https://github.com/pdlove/node-carpenter#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pluralize": "^8.0.0",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
   }
 }

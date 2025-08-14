@@ -1,4 +1,3 @@
-const allModels={};
 import Organization from './UserSystem/Organization.js';
 import User from './UserSystem/User.js';
 import SecurityGroup from './UserSystem/SecurityGroup.js';
@@ -6,7 +5,7 @@ import SecurityGroupUserMembership from './UserSystem/SecurityGroupUserMembershi
 import SecurityGroupGroupMembership from './UserSystem/SecurityGroupGroupMembership.js';
 import UserSession from './UserSystem/UserSession.js';
 
-allModels = {
+const modelList = {
     Organization,
     User,
     SecurityGroup,

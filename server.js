@@ -1,4 +1,4 @@
-import { CarpenterServer  } from "./index";
+import { CarpenterServer  } from "./index.js";
 async function main(params) {
     const dbConfig = { storage: 'database.sqlite', dialect: 'sqlite', logging: console.log, define: { underscored: true, } };
     const carpenter = new CarpenterServer();

@@ -1,4 +1,4 @@
-class CarpenterRoute {
+export default class CarpenterRoute {
     static carpenterServer = null;
     customAccessFilter = false; //If true then a failed authentication will be passed through.
     defaultAccess = 'admin'; // admin, user, public
@@ -18,4 +18,3 @@ class CarpenterRoute {
         }
     }
 }
-module.exports = {  CarpenterRoute };

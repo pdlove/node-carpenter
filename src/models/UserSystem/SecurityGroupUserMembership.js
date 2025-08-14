@@ -1,5 +1,6 @@
-import { CarpenterModel, DataTypes } from "../../carpenter/CarpenterModel.js";
-import CarpenterModelRelationship from "../../carpenter/CarpenterModelRelationship.js";
+import CarpenterModel from "../../lib/CarpenterModel.js";
+import CarpenterModelRelationship from "../../lib/CarpenterModelRelationship.js";
+import { DataTypes } from "sequelize";
 
 export default class SecurityGroupUserMembership extends CarpenterModel {
     static sequelizeDefinition = {

@@ -1,7 +1,8 @@
-import { CarpenterModel, DataTypes } from "../../carpenter/CarpenterModel.js";
-import CarpenterModelRelationship from "../../carpenter/CarpenterModelRelationship.js";
+import CarpenterModel from "../../lib/CarpenterModel.js";
+import CarpenterModelRelationship from "../../lib/CarpenterModelRelationship.js";
+import { DataTypes } from "sequelize";
 
-export class UserSession extends CarpenterModel {
+export default class UserSession extends CarpenterModel {
     static sequelizeDefinition = {
         sessionId: { type: DataTypes.UUID, primaryKey: true, allowNull: false, },
         userId: { type: DataTypes.UUID, allowNull: false, },
