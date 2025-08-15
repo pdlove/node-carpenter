@@ -1,4 +1,5 @@
-const { useState } = React;
+import { h, render, lazy, Suspense } from '/vendor/preact/preact.mjs';
+import { useEffect, useMemo, useRef, useState } from '/vendor/preact/hooks.mjs';
 
 export default function ChangePassword({ http }) {
   const [currentPassword, setCurrentPassword] = useState('')

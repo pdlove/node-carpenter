@@ -1,8 +1,9 @@
 import CarpenterModel from "../../lib/CarpenterModel.js";
 import CarpenterModelRelationship from "../../lib/CarpenterModelRelationship.js";
-import { DataTypes } from "sequelize";
+import { DataTypes, or } from "sequelize";
 
 export default class Organization extends CarpenterModel {
+    static defaultReadAccess = "guest";
     static sequelizeDefinition = {
         organizationId: { type: DataTypes.UUID, primaryKey: true, allowNull: false, },
         otpRequired: { type: DataTypes.TINYINT, allowNull: true, },
@@ -20,7 +21,13 @@ export default class Organization extends CarpenterModel {
             otpRequired: 0,
             name: "Web Farm Solutions",
             description: "Primary Test Organization",
-        },        
+        },
+        {
+            organizationId: "00000000-0000-0000-0000-000000000000",
+            otpRequired: 0,
+            name: "Public Access",
+            description: "Public access organization for guest users.",
+        }
     ]
 
     static seedDataDemo = [

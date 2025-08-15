@@ -46,7 +46,7 @@ export default class CarpenterModelRelationship {
         }
 
         if (this.connectionType === '11') {
-            console.log('Forming One-to-One connection of ' + this.parentModelName + ' <-> ' + this.childModelName);
+            if (this.debugLevel>1) console.log('Forming One-to-One connection of ' + this.parentModelName + ' <-> ' + this.childModelName);
 
             //Check that all models were found.
             if (!this.parentModel) throw new Error ("1:1 Relationships missing a Parent Model");
@@ -65,7 +65,7 @@ export default class CarpenterModelRelationship {
             let b = this.parentModel.sequelizeObject.hasOne(this.childModel.sequelizeObject, { as: this.relationshipNameFromParent, foreignKey: this.childParentKey });
             this.parentGet = b.accessors.get;
         } else if (this.connectionType === '1M') {
-            console.log('Forming One-to-Many connection of ' + this.parentModelName + ' <-> ' + this.childModelName+' '+JSON.stringify(this));
+            if (this.debugLevel>1) console.log('Forming One-to-Many connection of ' + this.parentModelName + ' <-> ' + this.childModelName+' '+JSON.stringify(this));
 
             //Check that all models were found.
             if (!this.parentModel) throw new Error ("1:Many Relationships missing a Parent Model");
@@ -86,7 +86,7 @@ export default class CarpenterModelRelationship {
 
         } else if (this.connectionType === 'MM') {
             //Check that all models were found.
-            console.log('Forming Many-to-Many connection of ' + this.parentModelName + ' <-> ' + this.childModelName + ' <-> ' + this.peerModelName);
+            if (this.debugLevel>1) console.log('Forming Many-to-Many connection of ' + this.parentModelName + ' <-> ' + this.childModelName + ' <-> ' + this.peerModelName);
 
             //Check that all models were found.
             if (!this.parentModel) throw new Error ("Many:Many Relationships missing a Parent Model");

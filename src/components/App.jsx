@@ -1,8 +1,25 @@
-const { lazy, Suspense, useEffect, useMemo, useRef, useState } = React;
+import { h, render } from '/vendor/preact/preact.mjs';
+import { useEffect, useMemo, useRef, useState } from '/vendor/preact/hooks.mjs';
 
-const panels = {};
-panels['User_LoginScreen'] = lazy(() => import('./User/Login.jsx'))
+function lazy(loader) {
+  return function LazyWrapper(props) {
+    const [Comp, setComp] = useState(null);
 
+    useEffect(() => {
+      let mounted = true;
+      loader().then((mod) => {
+        if (mounted) setComp(() => mod.default || mod);
+      });
+      return () => (mounted = false);
+    }, []);
+
+    if (!Comp) return <div>Loading...</div>;
+    return <Comp {...props} />;
+  };
+}
+
+const LoginScreen = lazy(() => import('./Login.jsx'))
+const OrganizationManager = lazy(() => import('./OrganizationManager.jsx'))
 const panelList = ['User_Login', 'User_ChangePassword', 'User_ConfigOtp', 'Security_OrganizationManager'];
 async function http(input, init) {
     const res = await fetch(input, {
@@ -24,13 +41,11 @@ export function App() {
 
     return (
         <div style={{ minHeight: '100%' }}>
-            <Suspense fallback={<div class="container">Loading…</div>}>
                 {!isAuthenticated ? (
-                    <LoginScreen onLogin={onLogin} showOtp={showOtp} onOtp={onOtp} error={loginError} />
+                    <LoginScreen onLogin={setIsAuthenticated} error={loginError} />
                 ) : (
                     <Shell />
                 )}
-            </Suspense>
         </div>
     )
 }
@@ -68,11 +83,9 @@ function Shell() {
             </div>
 
             <div class="container" style={{ paddingTop: 16 }}>
-                <Suspense fallback={<div>Loading…</div>}>
                     {activeView === 'changepwd' && <ChangePassword http={http} />}
                     {activeView === 'changeotp' && <ChangeOtp http={http} />}
                     {activeView === 'org' && <OrganizationManager http={http} />}
-                </Suspense>
             </div>
         </div>
     )

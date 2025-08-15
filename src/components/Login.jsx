@@ -1,4 +1,6 @@
-const { useState } = React;
+import { h, render } from '/vendor/preact/preact.mjs';
+import { useEffect, useMemo, useRef, useState } from '/vendor/preact/hooks.mjs';
+
 
 export default function LoginScreen({ onLogin, onOtp, showOtp, error }) {
     const [username, setUsername] = useState('')

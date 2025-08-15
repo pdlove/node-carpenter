@@ -8,28 +8,66 @@ import { tokenMiddleware } from "./authToken.js"
 import path from "path";
 
 import * as defaultModels from '../models/index.js';
-
+import * as systemRoutes from '../routes/index.js';
 
 export default class CarpenterServer {
     models = {}; // This is a dictionary of models, e.g. { 'user': CarpenterModel }
+    modelSeedGroups = []; //List of arrays that will be seeded in order.
     routes = {}; // This is a dictionary of routes
-    preactFiles = {}; // This is a dictionary of compiled preact files
-    publicPaths = {}; // This is a dictionary of compiled preact files
-    
+    componentPaths = {}; // This is a dictionary of compiled preact files
+    publicPaths = []; // This is a dictionary of compiled preact files
+
+    options = {
+        useFrontEnd: true,
+        debugLevel: 0, // 0 = No Debug, 1 = Basic Debug, 2 = Verbose Debug, 3 = Very Verbose Debug (Includes SQL Queries)
+        demoData: false, //Determines if demo data is seeded.
+        dbConfig: { 
+            storage: 'database.sqlite', 
+            dialect: 'sqlite', 
+            logging: null,
+            define: { underscored: true, freezeTableName: true } 
+        },
+        multiUser: true, // If true, the server will support multiple users and sessions.
+
+    }
     sequelize = null;
 
     constructor(options = {}) {
-        this.useFrontEnd = options.useFrontEnd || true;
-        this.dbConfig = options.dbConfig || { storage: 'database.sqlite', dialect: 'sqlite'};        
-        this.dbConfig.define = this.dbConfig.define || { underscored: true, freezeTableName: true };        
-        this.dbConfig.define.underscored= true; // Use snake_case for column names - This is forced to be true for consistency. It CAN be overridden in the model definitions        
-        //Load the default entries
+        // Shallow merge user options into class options
+        this.options = { ...this.options, ...options };
+      
+        this.options.dbConfig.define = this.options.dbConfig.define || { underscored: true, freezeTableName: true }; // If no define was specified, use the default define options.
+        this.options.dbConfig.define.underscored = true; // Use snake_case for column names - This is forced to be true for consistency. It CAN be overridden in the model definitions
+
+        //Load the system models
+        if (this.debugLevel > 0) console.log("Loading system models");
         for (const modelName in defaultModels.modelList) {
+            if (this.debugLevel > 1) console.log(`Adding system model: ${modelName}`);
             this.AddModel(defaultModels.modelList[modelName]);
         }
+        this.modelSeedGroups.push(defaultModels.seedOrder); // Add the default model seed group
+
+        //Load System Routes
+        if (this.debugLevel > 0) console.log("Loading system routes");
+
+        //Load System Public Path
+        if (this.debugLevel > 0) console.log("Loading system public paths");
+        this.addPublicPath(path.resolve('./src/public/'));
+        
+        if (this.debugLevel > 0) console.log("Loading system preact components");
+        //this.addPreactComponent(defaultModels.preactComponents, path.join(this.frontEndPath, "components/"));
+        this.addPreactComponentPath(path.resolve('./src/components/'), 'system'); // Set the frontend path to the src/reactFiles directory
+        //Load System Preact Components
+        this.frontEndPath = path.resolve('./src/reactFiles/'); // Set the frontend path to the src/frontend directory
+
+        for (const routeName in systemRoutes) {
+            if (this.debugLevel > 1) console.log(`Adding system route: ${routeName}`);
+            this.AddRouteObject(systemRoutes[routeName]);
+        }
+        
     }
 
-    async DatabaseInitialize(dbConfig) {
+    async DatabaseInitialize() {
         if (!this.models || Object.keys(this.models).length == 0) {
             throw new Error('No models have been added to the CarpenterServer. Please add models before initializing the database.');
         }
@@ -37,7 +75,7 @@ export default class CarpenterServer {
         //Initialize and test the database Connection.
         try {
             // Implementation for initializing the database
-            this.sequelize = new Sequelize(dbConfig);
+            this.sequelize = new Sequelize(this.options.dbConfig);
 
             // Test the connection
             await (async () => {
@@ -58,11 +96,11 @@ export default class CarpenterServer {
         for (const modelName in this.models) {
             const model = this.models[modelName];
             if (model && model.sequelizeObject) {
-                console.log(`Model ${modelName} is already initialized.`);
+                if (this.debugLevel>0) console.log(`Model ${modelName} is already initialized.`);
             } else {
                 // Initialize the model with Sequelize
                 await model.sequelizeDefine(this.sequelize, Sequelize.DataTypes);
-                console.log(`Model ${modelName} initialized.`);
+                if (this.debugLevel>0) console.log(`Model ${modelName} initialized.`);
             }
         }
 
@@ -82,6 +120,16 @@ export default class CarpenterServer {
         }
 
         await this.sequelize.sync({})
+
+        // Seed the core data if needed
+        for (const modelSeedGroup of this.modelSeedGroups) {            
+            const seededModels = await this.SeedCoreData(modelSeedGroup, false);
+            console.log(`Seeded core data for models: ${seededModels.join(', ')}`);
+            if (this.options.demoData) {
+                await this.SeedDemoData(seededModels, true);
+                console.log(`Seeded demo data for models: ${seededModels.join(', ')}`);
+            }
+        }
     }
 
     async SeedCoreData(modelList, force=false) {
@@ -91,12 +139,12 @@ export default class CarpenterServer {
             const model = this.models[modelName];
             const itemCount = await model.sequelizeObject.count();
             if (itemCount > 0 && !force) {
-                console.log(modelName + ' already exists, skipping seeding.');
+                if (this.debugLevel>1) console.log(modelName + ' already exists, skipping seeding.');
                 continue;
             }
             seededModels.push(modelName);
             if (model.seedDataCore.length > 0) {
-                console.log('Seeding Core Data for ' + modelName);
+                if (this.debugLevel>0) console.log('Seeding Core Data for ' + modelName);
                 for (const item of model.seedDataCore) {
                     await model.sequelizeObject.create(item);
                 }
@@ -110,11 +158,11 @@ export default class CarpenterServer {
             const model = this.models[modelName];
             const itemCount = await model.sequelizeObject.count();
             if (itemCount > 0 && !force) {
-                console.log(modelName + ' already exists, skipping seeding.');
+                if (this.debugLevel>1) console.log(modelName + ' already exists, skipping seeding.');
                 continue;
             }
             if (model.seedDataDemo.length > 0) {
-                console.log('Seeding Demo Data for ' + modelName);
+                if (this.debugLevel>0) console.log('Seeding Demo Data for ' + modelName);
                 for (const item of model.seedDataDemo) {
                     await model.sequelizeObject.create(item);
                 }
@@ -131,6 +179,15 @@ export default class CarpenterServer {
         }
         if (model.autoRoutes) this.addAPIRoutes(model.apiRoutes())
     }
+
+    AddModelSeedGroup(modelList) {
+        if (Array.isArray(modelList) && modelList.length > 0) {
+            this.modelSeedGroups.push(modelList);
+        } else {
+            throw new Error('Invalid model list provided to AddModelSeedGroup');
+        }
+    }
+
     AddRouteObject(route) {
         route.carpenterServer=this;
         this.addAPIRoutes(route.apiRoutes());
@@ -160,9 +217,14 @@ export default class CarpenterServer {
     }
     addJobTemplate(jobTemplate) {
     }
-    addPreactComponent(component, path) {
+    addPreactComponentPath(path, prefix) {
+        if (this.debugLevel > 0) console.log(`Adding preact component path: ${path} with prefix: ${prefix}`);
+        this.componentPaths[prefix] = path;
     }
     addPublicPath(publicPath) {
+        if (this.debugLevel > 0) console.log(`Adding public path: ${publicPath}`);
+        this.publicPaths.push(publicPath);
+        
     }
     addMenuItem(menuItem) {
     }
@@ -174,22 +236,21 @@ export default class CarpenterServer {
 
         //TODO: Revisit how to include the frontend components in the project better.
         //Possibly simply pre-compile them into a module.
-        this.frontEndPath = path.resolve('./src/frontend/');
+        //this.frontEndPath = path.resolve('./src/frontend/');
         //Initialize the Web API
         const app = express();
         this.expressAPI = app;
-        
-        app.use("/",express.static(path.join(this.frontEndPath,"public/")));
-        app.use("/vendor",express.static(path.join(this.frontEndPath,"vendor")));
-        
+
         app.use(cookieParser());
         app.use(bodyParser.json());
 
         app.use(tokenMiddleware(this));
         app.use(this.customParser.bind(this));
 
-        
-
+        for (const publicPath of this.publicPaths) {
+            if (this.debugLevel > 0) console.log(`Serving public path: ${publicPath}`);
+            app.use("/", express.static(publicPath));
+        }
 
         // Add Model route
         this.addAPIRoutes([{ path: ('/api/data'), method: "GET", function: (req, res) => res.json(Object.keys(this.models)), isAPI: true }])

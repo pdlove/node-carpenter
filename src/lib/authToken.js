@@ -45,9 +45,8 @@ export class TokenAuthentication {
                 return;
             }
         } else {
-            //TODO: Populate as Guest User
-            handleError(`Invalid Token: No Token Presented`);
-            return;
+            // No token provided, set the session to the guest/public session.
+            user = { sessionId: "00000000-0000-0000-0000-000000000000" };
         }
 
         const Session = TokenAuthentication.carpenterServer.models.UserSession;

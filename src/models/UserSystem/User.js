@@ -40,6 +40,15 @@ export default class User extends CarpenterModel {
             title: "System Administrator",
             organizationId: "94a72a62-3d66-4e78-a20a-14f4eae1a9de",
             description: "Primary system administrator account across all teams.",
+        },            {
+            userId: "00000000-0000-0000-0000-000000000000",
+            email: "guest@example.com",
+            password: hashPassword("password"), // Hashed password for "password"
+            userType: "person",
+            otpKey: null,
+            name: "Guest User",
+            organizationId: "00000000-0000-0000-0000-000000000000",
+            description: "Guest account for public access.",
         },        
     ]
 

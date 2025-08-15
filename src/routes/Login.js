@@ -1,12 +1,12 @@
-import { CarpenterRoute } from "../../CarpenterRoute.js";
-import { TokenAuthentication } from "../../authToken.js"
+import CarpenterRoute from "../lib/CarpenterRoute.js";
+import { TokenAuthentication } from "../lib/authToken.js"
 
 import { TOTP } from "otpauth";
 import bcrypt from "bcrypt";
 
 const SESSION_EXPIRATION_HOURS = 24;
 
-export class Login extends CarpenterRoute {
+export default class Login extends CarpenterRoute {
     static defaultAccess = "public";
 
     static apiRoutes() {

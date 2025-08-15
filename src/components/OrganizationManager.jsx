@@ -1,4 +1,6 @@
-const { useEffect, useMemo, useState } = React;
+import { h, render, Fragment } from '/vendor/preact/preact.mjs';
+import { useEffect, useMemo, useRef, useState } from '/vendor/preact/hooks.mjs';
+
 
 
 export default function OrganizationManager({ http }) {

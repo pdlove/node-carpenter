@@ -43,6 +43,12 @@ export default class SecurityGroupUserMembership extends CarpenterModel {
             memberUserId: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
             ofGroupId: "65d6f7e0-cb3e-4eb1-b58b-3dd9d404f37d", // user group
             addedBy: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
+        },
+        {
+            membershipId: "00000000-0000-0000-0000-000000000000",
+            memberUserId: "00000000-0000-0000-0000-000000000000", // guest user
+            ofGroupId: "00000000-0000-0000-0000-000000000000", // guest group
+            addedBy: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
         }
     ]
     static seedDataDemo = [

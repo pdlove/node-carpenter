@@ -22,6 +22,17 @@ export default class UserSession extends CarpenterModel {
     ];
 
     static seedDataCore = [
+        {
+            sessionId: "00000000-0000-0000-0000-000000000000", // Permanent session for guest user
+            userId: "00000000-0000-0000-0000-000000000000", // guest user
+            srcIPAddress: "127.0.0.1", // Localhost is used for guest to prevent a very high number of sessions.
+            userAgent: "Guest User Session",
+            startTime: new Date(),
+            expireTime: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365 * 100), // 100 year from now TODO: Add logic to prevent this from being expired at all
+            lastUseTime: new Date(),
+            status: "Active",
+            mfaVerified: false
+        }
     ]
 
     static seedDataDemo = [
