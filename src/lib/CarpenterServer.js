@@ -39,32 +39,36 @@ export default class CarpenterServer {
         this.options.dbConfig.define = this.options.dbConfig.define || { underscored: true, freezeTableName: true }; // If no define was specified, use the default define options.
         this.options.dbConfig.define.underscored = true; // Use snake_case for column names - This is forced to be true for consistency. It CAN be overridden in the model definitions
 
+        const publicPath= path.resolve('./src/public/');
+        const componentPath = path.resolve('./src/components/');
+        this.addStack('system', defaultModels.modelList, defaultModels.seedOrder, systemRoutes, [], publicPath, componentPath);
+    
         //Load the system models
-        if (this.debugLevel > 0) console.log("Loading system models");
-        for (const modelName in defaultModels.modelList) {
-            if (this.debugLevel > 1) console.log(`Adding system model: ${modelName}`);
-            this.AddModel(defaultModels.modelList[modelName]);
+        
+        
+    }
+
+    addStack(stackName, modelList, modelSeedOrder, routes, jobs, publicPath, componentPath) {
+        if (this.debugLevel > 0) console.log(`Loading models for stack: ${stackName}`);
+        for (const modelName in modelList) {
+            if (this.debugLevel > 1) console.log(`Adding model: ${modelName}`);
+            this.AddModel(modelList[modelName]);
         }
-        this.modelSeedGroups.push(defaultModels.seedOrder); // Add the default model seed group
+        this.modelSeedGroups.push(modelSeedOrder); // Add the default model seed group
 
         //Load System Routes
-        if (this.debugLevel > 0) console.log("Loading system routes");
-
-        //Load System Public Path
-        if (this.debugLevel > 0) console.log("Loading system public paths");
-        this.addPublicPath(path.resolve('./src/public/'));
-        
-        if (this.debugLevel > 0) console.log("Loading system preact components");
-        //this.addPreactComponent(defaultModels.preactComponents, path.join(this.frontEndPath, "components/"));
-        this.addPreactComponentPath(path.resolve('./src/components/'), 'system'); // Set the frontend path to the src/reactFiles directory
-        //Load System Preact Components
-        this.frontEndPath = path.resolve('./src/reactFiles/'); // Set the frontend path to the src/frontend directory
-
-        for (const routeName in systemRoutes) {
-            if (this.debugLevel > 1) console.log(`Adding system route: ${routeName}`);
-            this.AddRouteObject(systemRoutes[routeName]);
+        if (this.debugLevel > 0) console.log(`Loading routes for stack: ${stackName}`);
+        for (const routeName in routes) {
+            if (this.debugLevel > 1) console.log(`Adding route: ${routes[routeName].path}`);
+            this.AddRouteObject(routes[routeName]);
         }
+        //Load System Public Path
+        if (this.debugLevel > 0) console.log(`Loading public path for stack: ${stackName}`);
+        this.addPublicPath(publicPath);
         
+        if (this.debugLevel > 0) console.log(`Loading component path for stack: ${stackName}`);
+        //this.addPreactComponent(defaultModels.preactComponents, path.join(this.frontEndPath, "components/"));
+        this.addPreactComponentPath(componentPath, stackName); // Set the frontend path to the src/reactFiles directory
     }
 
     async DatabaseInitialize() {
