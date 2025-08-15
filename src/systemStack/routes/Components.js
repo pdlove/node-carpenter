@@ -1,4 +1,4 @@
-import CarpenterRoute from "../lib/CarpenterRoute.js";
+import CarpenterRoute from "../../lib/CarpenterRoute.js";
 import path from "path";
 import babel from "@babel/core";
 

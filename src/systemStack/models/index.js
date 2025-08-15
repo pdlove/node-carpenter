@@ -5,7 +5,7 @@ import SecurityGroupUserMembership from './UserSystem/SecurityGroupUserMembershi
 import SecurityGroupGroupMembership from './UserSystem/SecurityGroupGroupMembership.js';
 import UserSession from './UserSystem/UserSession.js';
 
-const modelList = {
+export const modelList = {
     Organization,
     User,
     SecurityGroup,
@@ -13,8 +13,4 @@ const modelList = {
     SecurityGroupGroupMembership,
     UserSession
 };
-
-
-
-export { modelList };
-export const seedOrder = ['Organization', 'User', 'SecurityGroup', 'SecurityGroupGroupMembership', 'SecurityGroupUserMembership', 'UserSession'];
+export const modelSeedOrder = ['Organization', 'User', 'SecurityGroup', 'SecurityGroupGroupMembership', 'SecurityGroupUserMembership', 'UserSession'];

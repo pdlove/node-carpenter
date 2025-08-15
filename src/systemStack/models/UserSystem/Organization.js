@@ -1,6 +1,4 @@
-import CarpenterModel from "../../lib/CarpenterModel.js";
-import CarpenterModelRelationship from "../../lib/CarpenterModelRelationship.js";
-import { DataTypes, or } from "sequelize";
+import {CarpenterModel, CarpenterModelRelationship, DataTypes } from "../../../index.js";
 
 export default class Organization extends CarpenterModel {
     static defaultReadAccess = "guest";

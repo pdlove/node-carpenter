@@ -1,5 +1,5 @@
-import CarpenterRoute from "../lib/CarpenterRoute.js";
-import { TokenAuthentication } from "../lib/authToken.js"
+import CarpenterRoute from "../../lib/CarpenterRoute.js";
+import { TokenAuthentication } from "../../lib/authToken.js"
 
 import { TOTP } from "otpauth";
 import bcrypt from "bcrypt";

@@ -7,9 +7,6 @@ import bodyParser from "body-parser";
 import { tokenMiddleware } from "./authToken.js"
 import path from "path";
 
-import * as defaultModels from '../models/index.js';
-import * as systemRoutes from '../routes/index.js';
-
 export default class CarpenterServer {
     models = {}; // This is a dictionary of models, e.g. { 'user': CarpenterModel }
     modelSeedGroups = []; //List of arrays that will be seeded in order.
@@ -32,20 +29,15 @@ export default class CarpenterServer {
     }
     sequelize = null;
 
-    constructor(options = {}) {
+    async init(options = {}) {
         // Shallow merge user options into class options
         this.options = { ...this.options, ...options };
       
         this.options.dbConfig.define = this.options.dbConfig.define || { underscored: true, freezeTableName: true }; // If no define was specified, use the default define options.
         this.options.dbConfig.define.underscored = true; // Use snake_case for column names - This is forced to be true for consistency. It CAN be overridden in the model definitions
-
-        const publicPath= path.resolve('./src/public/');
-        const componentPath = path.resolve('./src/components/');
-        this.addStack('system', defaultModels.modelList, defaultModels.seedOrder, systemRoutes, [], publicPath, componentPath);
-    
-        //Load the system models
         
-        
+        const systemStack = await import('../systemStack/index.js');
+        this.addStack('system', systemStack.modelList, systemStack.modelSeedOrder, systemStack.routes,systemStack.jobs, systemStack.publicPath, systemStack.componentPath);
     }
 
     addStack(stackName, modelList, modelSeedOrder, routes, jobs, publicPath, componentPath) {
