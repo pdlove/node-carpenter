@@ -34,21 +34,21 @@ export default class SecurityGroupUserMembership extends CarpenterModel {
     static seedDataCore = [
         {
             membershipId: "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f",
-            memberUserId: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
-            ofGroupId: "d11f5a17-3b5b-4a6f-96ec-77616e730cea", // site-admin group
-            addedBy: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
+            memberUserId: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", // admin user
+            ofGroupId: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", // site-admin group
+            addedBy: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", // admin user
         },
         {
             membershipId: "136dff29-4c09-4bfa-a339-8fa2836a6eaf",
-            memberUserId: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
+            memberUserId: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", // admin user
             ofGroupId: "65d6f7e0-cb3e-4eb1-b58b-3dd9d404f37d", // user group
-            addedBy: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
+            addedBy: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", // admin user
         },
         {
             membershipId: "00000000-0000-0000-0000-000000000000",
             memberUserId: "00000000-0000-0000-0000-000000000000", // guest user
             ofGroupId: "00000000-0000-0000-0000-000000000000", // guest group
-            addedBy: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e", // admin user
+            addedBy: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", // admin user
         }
     ]
     static seedDataDemo = [

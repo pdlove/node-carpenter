@@ -15,7 +15,7 @@ export default class CarpenterServer {
     modelSeedGroups = []; //List of arrays that will be seeded in order.
     routes = {}; // This is a dictionary of routes
     componentPaths = {}; // This is a dictionary of compiled preact files
-    publicPaths = []; // This is a dictionary of compiled preact files
+    publicPaths = {}; // This is a dictionary of compiled preact files
 
     options = {
         useFrontEnd: true,
@@ -27,7 +27,7 @@ export default class CarpenterServer {
             logging: null,
             define: { underscored: true, freezeTableName: true } 
         },
-        multiUser: true, // If true, the server will support multiple users and sessions.
+        singleUserMode: false, // If true, the server will support multiple users and sessions.
 
     }
     sequelize = null;
@@ -64,7 +64,12 @@ export default class CarpenterServer {
         }
         //Load System Public Path
         if (this.debugLevel > 0) console.log(`Loading public path for stack: ${stackName}`);
-        this.addPublicPath(publicPath);
+        if (stackName === 'system') {
+            this.addPublicPath('/', publicPath); // Set the root public path for the system stack
+        } else {
+            this.addPublicPath(`/${stackName}`, publicPath); // Set the public path for the stack
+        }
+        
         
         if (this.debugLevel > 0) console.log(`Loading component path for stack: ${stackName}`);
         //this.addPreactComponent(defaultModels.preactComponents, path.join(this.frontEndPath, "components/"));
@@ -225,9 +230,9 @@ export default class CarpenterServer {
         if (this.debugLevel > 0) console.log(`Adding preact component path: ${path} with prefix: ${prefix}`);
         this.componentPaths[prefix] = path;
     }
-    addPublicPath(publicPath) {
+    addPublicPath(webPath, publicPath) {
         if (this.debugLevel > 0) console.log(`Adding public path: ${publicPath}`);
-        this.publicPaths.push(publicPath);
+        this.publicPaths[webPath]=publicPath;
         
     }
     addMenuItem(menuItem) {
@@ -251,9 +256,9 @@ export default class CarpenterServer {
         app.use(tokenMiddleware(this));
         app.use(this.customParser.bind(this));
 
-        for (const publicPath of this.publicPaths) {
-            if (this.debugLevel > 0) console.log(`Serving public path: ${publicPath}`);
-            app.use("/", express.static(publicPath));
+        for (const webPath in this.publicPaths) {
+            if (this.debugLevel > 0) console.log(`Serving public path: ${webPath} from ${this.publicPaths[webPath]}`);
+            app.use(webPath, express.static(this.publicPaths[webPath]));
         }
 
         // Add Model route

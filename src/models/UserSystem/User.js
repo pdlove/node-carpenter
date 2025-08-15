@@ -31,7 +31,7 @@ export default class User extends CarpenterModel {
 
     static seedDataCore = [
         {
-            userId: "b11e2f3d-4c5a-6b7c-8d9e-0f1a2b3c4d5e",
+            userId: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF",
             email: "admin@example.com",
             password: hashPassword("password"), // Hashed password for "password"
             userType: "person",

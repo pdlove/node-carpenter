@@ -46,7 +46,11 @@ export class TokenAuthentication {
             }
         } else {
             // No token provided, set the session to the guest/public session.
-            user = { sessionId: "00000000-0000-0000-0000-000000000000" };
+            if (this.carpenterServer.options.singleUserMode) {
+                user = { sessionId: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" }; // Single user mode, use the admin user session
+            } else {
+                user = { sessionId: "00000000-0000-0000-0000-000000000000" };
+            }
         }
 
         const Session = TokenAuthentication.carpenterServer.models.UserSession;
