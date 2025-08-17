@@ -43,21 +43,21 @@ export default class CarpenterServer {
     }
 
     addStack(stackName, modelList, modelSeedOrder, routes, jobs, publicPath, componentPath) {
-        if (this.debugLevel > 0) console.log(`Loading models for stack: ${stackName}`);
+        if (this.options.debugLevel > 0) console.log(`Loading models for stack: ${stackName}`);
         for (const modelName in modelList) {
-            if (this.debugLevel > 1) console.log(`Adding model: ${modelName}`);
+            if (this.options.debugLevel > 1) console.log(`Adding model: ${modelName}`);
             this.AddModel(modelList[modelName]);
         }
         this.modelSeedGroups.push(modelSeedOrder); // Add the default model seed group
 
         //Load System Routes
-        if (this.debugLevel > 0) console.log(`Loading routes for stack: ${stackName}`);
+        if (this.options.debugLevel > 0) console.log(`Loading routes for stack: ${stackName}`);
         for (const routeName in routes) {
-            if (this.debugLevel > 1) console.log(`Adding route: ${routes[routeName].path}`);
+            if (this.options.debugLevel > 1) console.log(`Adding route: ${routes[routeName].path}`);
             this.AddRouteObject(routes[routeName]);
         }
         //Load System Public Path
-        if (this.debugLevel > 0) console.log(`Loading public path for stack: ${stackName}`);
+        if (this.options.debugLevel > 0) console.log(`Loading public path for stack: ${stackName}`);
         if (stackName === 'system') {
             this.addPublicPath('/', publicPath); // Set the root public path for the system stack
         } else {
@@ -65,7 +65,7 @@ export default class CarpenterServer {
         }
 
 
-        if (this.debugLevel > 0) console.log(`Loading component path for stack: ${stackName}`);
+        if (this.options.debugLevel > 0) console.log(`Loading component path for stack: ${stackName}`);
         //this.addPreactComponent(defaultModels.preactComponents, path.join(this.frontEndPath, "components/"));
         this.addPreactComponentPath(componentPath, stackName); // Set the frontend path to the src/reactFiles directory
     }
@@ -99,11 +99,11 @@ export default class CarpenterServer {
         for (const modelName in this.models) {
             const model = this.models[modelName];
             if (model && model.sequelizeObject) {
-                if (this.debugLevel > 0) console.log(`Model ${modelName} is already initialized.`);
+                if (this.options.debugLevel > 0) console.log(`Model ${modelName} is already initialized.`);
             } else {
                 // Initialize the model with Sequelize
                 await model.sequelizeDefine(this.sequelize, Sequelize.DataTypes);
-                if (this.debugLevel > 0) console.log(`Model ${modelName} initialized.`);
+                if (this.options.debugLevel > 0) console.log(`Model ${modelName} initialized.`);
             }
         }
 
@@ -142,13 +142,14 @@ export default class CarpenterServer {
             const model = this.models[modelName];
             const itemCount = await model.sequelizeObject.count();
             if (itemCount > 0 && !force) {
-                if (this.debugLevel > 1) console.log(modelName + ' already exists, skipping seeding.');
+                if (this.options.debugLevel > 1) console.log(modelName + ' already exists, skipping seeding.');
                 continue;
             }
             seededModels.push(modelName);
             if (model.seedDataCore.length > 0) {
-                if (this.debugLevel > 0) console.log('Seeding Core Data for ' + modelName);
+                if (this.options.debugLevel > 0) console.log('Seeding Core Data for ' + modelName);
                 for (const item of model.seedDataCore) {
+                    if (this.options.debugLevel > 1) console.log(JSON.stringify(item));
                     await model.sequelizeObject.create(item);
                 }
             }
@@ -161,12 +162,13 @@ export default class CarpenterServer {
             const model = this.models[modelName];
             const itemCount = await model.sequelizeObject.count();
             if (itemCount > 0 && !force) {
-                if (this.debugLevel > 1) console.log(modelName + ' already exists, skipping seeding.');
+                if (this.options.debugLevel > 1) console.log(modelName + ' already exists, skipping seeding.');
                 continue;
             }
             if (model.seedDataDemo.length > 0) {
-                if (this.debugLevel > 0) console.log('Seeding Demo Data for ' + modelName);
+                if (this.options.debugLevel > 0) console.log('Seeding Demo Data for ' + modelName);
                 for (const item of model.seedDataDemo) {
+                    if (this.options.debugLevel > 1) console.log(JSON.stringify(item));
                     await model.sequelizeObject.create(item);
                 }
             }
@@ -221,11 +223,11 @@ export default class CarpenterServer {
     addJobTemplate(jobTemplate) {
     }
     addPreactComponentPath(path, prefix) {
-        if (this.debugLevel > 0) console.log(`Adding preact component path: ${path} with prefix: ${prefix}`);
+        if (this.options.debugLevel > 0) console.log(`Adding preact component path: ${path} with prefix: ${prefix}`);
         this.componentPaths[prefix] = path;
     }
     addPublicPath(webPath, publicPath) {
-        if (this.debugLevel > 0) console.log(`Adding public path: ${publicPath}`);
+        if (this.options.debugLevel > 0) console.log(`Adding public path: ${publicPath}`);
         this.publicPaths[webPath] = publicPath;
 
     }
@@ -275,7 +277,7 @@ render(h(App, null), document.getElementById('app'));
         app.use(this.customParser.bind(this));
 
         for (const webPath in this.publicPaths) {
-            if (this.debugLevel > 0) console.log(`Serving public path: ${webPath} from ${this.publicPaths[webPath]}`);
+            if (this.options.debugLevel > 0) console.log(`Serving public path: ${webPath} from ${this.publicPaths[webPath]}`);
             app.use(webPath, express.static(this.publicPaths[webPath]));
         }
 
