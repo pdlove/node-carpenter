@@ -7,6 +7,9 @@ import bodyParser from "body-parser";
 import { tokenMiddleware } from "./authToken.js"
 import path from "path";
 
+import dotenv from "dotenv";
+import configManager from "./configManager.js"
+
 export default class CarpenterServer {
     models = {}; // This is a dictionary of models, e.g. { 'user': CarpenterModel }
     modelSeedGroups = []; //List of arrays that will be seeded in order.
@@ -14,10 +17,12 @@ export default class CarpenterServer {
     componentPaths = {}; // This is a dictionary of compiled preact files
     publicPaths = {}; // This is a dictionary of compiled preact files
 
+    carpenterWorker = null; // This is the ID of the carpenter worker that is running this server. It is used to identify the server in the system.
+
     options = {
         useFrontEnd: true,
         startWebIndex: null, //If set, this becomes the index.html passed to the client. If null, the one from the system stack is used.
-        startReact: '/part/system/App.jsx', //Allows overriding the default main.jsx. If null, the one from the system stack is used.
+        startReact: '/part/system/test.jsx', //Allows overriding the default main.jsx. If null, the one from the system stack is used.
         debugLevel: 0, // 0 = No Debug, 1 = Basic Debug, 2 = Verbose Debug, 3 = Very Verbose Debug (Includes SQL Queries)
         demoData: false, //Determines if demo data is seeded.
         dbConfig: {
@@ -27,13 +32,15 @@ export default class CarpenterServer {
             define: { underscored: true, freezeTableName: true }
         },
         singleUserMode: false, // If true, the server will support multiple users and sessions.
-
+        carpenterWorkerID: "00000000-0000-0000-0000-000000000000" // The ID of the carpenter worker that is running this server. The default is the Single
     }
+    config_json = {};
     sequelize = null;
 
     async init(options = {}) {
+        this.config_json = configManager.loadConfig();
         // Shallow merge user options into class options
-        this.options = { ...this.options, ...options };
+        this.options = { ...this.options, ...this.config_json, ...options };
 
         this.options.dbConfig.define = this.options.dbConfig.define || { underscored: true, freezeTableName: true }; // If no define was specified, use the default define options.
         this.options.dbConfig.define.underscored = true; // Use snake_case for column names - This is forced to be true for consistency. It CAN be overridden in the model definitions
@@ -234,11 +241,27 @@ export default class CarpenterServer {
     addMenuItem(menuItem) {
     }
 
-    Start() {
+    async Start() {
         const port = 8010;
         // Start the server, e.g. listen on a port, start the web server, etc.
         console.log('CarpenterServer started with models:', Object.keys(this.models));
 
+
+        // Populate the CarpenterWorkerID if not set
+        if (!this.carpenterWorker) {
+
+            this.carpenterWorker = await this.models['CarpenterWorker'].sequelizeObject.findByPk(this.options.carpenterWorkerID);
+            if (!this.carpenterWorker) {
+                this.carpenterWorker = await this.models['CarpenterWorker'].sequelizeObject.create({
+                    name: "localhost",
+                    management_ip: ""
+                })
+                this.config_json.carpenterWorkerID = this.carpenterWorker.carpenter_worker_id; // Set the environment variable for the carpenter worker ID                
+                this.options.carpenterWorkerID = this.config_json.carpenterWorkerID;
+            }
+        }
+
+        configManager.saveConfig(this.config_json);
         //TODO: Revisit how to include the frontend components in the project better.
         //Possibly simply pre-compile them into a module.
         //this.frontEndPath = path.resolve('./src/frontend/');
@@ -282,7 +305,7 @@ render(h(App, null), document.getElementById('app'));
         }
 
         // Add Model route
-        this.addAPIRoutes([{ path: ('/api/data'), method: "GET", function: (req, res) => res.json(Object.keys(this.models)), isAPI: true }])        
+        this.addAPIRoutes([{ path: ('/api/data'), method: "GET", function: (req, res) => res.json(Object.keys(this.models)), isAPI: true }])
         app.listen(port, async () => {
             console.log(`Server is running on port ${port}`);
         });

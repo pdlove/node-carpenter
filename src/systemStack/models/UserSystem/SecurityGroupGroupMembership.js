@@ -1,6 +1,5 @@
 import {CarpenterModel, CarpenterModelRelationship, DataTypes } from "../../../index.js";
 
-
 export default class SecurityGroupGroupMembership extends CarpenterModel {
     static sequelizeDefinition = {
         membership_id: { type: DataTypes.UUID, primaryKey: true, allowNull: false, },

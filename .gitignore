@@ -143,3 +143,6 @@ vite.config.ts.timestamp-*
 *.sqlite
 *.db
 database.sqlite
+
+#Carpenter Config person
+config.json
