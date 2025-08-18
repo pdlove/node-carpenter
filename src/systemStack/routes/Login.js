@@ -41,17 +41,17 @@ export default class Login extends CarpenterRoute {
             }
 
             // 4. Handle OTP verification
-            if (user.otpKey) { // User has OTP configured
+            if (user.otp_key) { // User has OTP configured
                 if (!otp) {
                     return res.status(401).json({ message: 'OTP Required' });
                 }
 
                 // Create a TOTP instance using the stored OTP key
                 // Note: In a real application, you'd securely store the OTP key and use appropriate encoding (base32)
-                // The otpKey in your model is currently a simple string, it should ideally be base32 encoded.
+                // The otp_key in your model is currently a simple string, it should ideally be base32 encoded.
                 // For this example, we assume it's directly usable or handle potential decoding if needed.
                 const totp = new TOTP({
-                    secret: user.otpKey, // Assuming user.otpKey is a direct string or needs decoding (e.g., base32)
+                    secret: user.otp_key, // Assuming user.otp_key is a direct string or needs decoding (e.g., base32)
                     digits: 6, // Typically 6 digits for TOTP
                     period: 30, // Typically 30 seconds for TOTP
                     algorithm: 'SHA1', // Common algorithm
@@ -75,32 +75,32 @@ export default class Login extends CarpenterRoute {
 
             //Successful login: Create Session
             const now = new Date();
-            const expireTime = new Date(now.getTime() + SESSION_EXPIRATION_HOURS * 60 * 60 * 1000); // e.g., 24 hours from now
-            const srcIPAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-            const userAgent = req.headers['user-agent'] || '';
+            const expire_time = new Date(now.getTime() + SESSION_EXPIRATION_HOURS * 60 * 60 * 1000); // e.g., 24 hours from now
+            const src_ipaddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+            const user_agent = req.headers['user-agent'] || '';
 
 
             const newSession = await UserSession.addObject({
-                userId: user.userId, // Assuming your User model has a 'userId' field
-                srcIPAddress,
-                userAgent,
-                startTime: now,
-                expireTime,
+                user_id: user.user_id, // Assuming your User model has a 'user_id' field
+                src_ipaddress,
+                user_agent,
+                start_time: now,
+                expire_time,
                 status: 'Active',
-                mfaVerified: ((user.otpKey || '') != ''),
-                lastUseTime: new Date()
+                mfa_verified: ((user.otp_key || '') != ''),
+                last_use_time: new Date()
             });
 
             // 6. Generate JWT Token
             const tokenPayload = {
-                sessionId: newSession.sessionId,
-                userId: user.userId
+                session_id: newSession.session_id,
+                user_id: user.user_id
                 // Add any other non-sensitive data needed in the token
             };
             const jwtToken = TokenAuthentication.generateJWT(tokenPayload);
 
             // 7. Respond with token for the client
-            if (user.userType == 'person') { //If the userType is "person" then respond with a cookie only.
+            if (user.user_type == 'person') { //If the user_type is "person" then respond with a cookie only.
                 res.cookie('token', jwtToken, {
                     httpOnly: true,      // Prevents JS access (important for security)
                     //secure: true,        // Only send over HTTPS
@@ -111,11 +111,11 @@ export default class Login extends CarpenterRoute {
                     message: 'Login successful',
                     email: user.email,
                 });
-            } else { //All other userTypes need the token returned.
+            } else { //All other user_types need the token returned.
                 res.status(200).json({
                     message: 'Login successful',
                     email: user.email,
-                    userType: user.userType,
+                    user_type: user.user_type,
                     token: jwtToken,
                 });
             }

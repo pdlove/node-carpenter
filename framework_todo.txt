@@ -1,8 +1,15 @@
-TODO: Add option to disable local security
+ShortTerm:
+TODO: Menu System
+TODO: Job Class
+TODO: Job Management Screen (Services, Scheduled, Adhoc)
+TODO: Database/file management screen. 
+TODO: Fix Organization Security Management Screen
+TODO: Hide public user/organization from security screens
+
+
+LongTerm:
 TODO: How do I pack this thing up for distribution
 TODO: Need a dynamic webpack to perform webpack only on screens the user has security to access
 TODO: Longterm - Client-side data caching options for offline use
 TODO: Create Unit tests
-TODO: Consider seeding database at initialization. Separate user option to populate demo data.
-TODO: Database/file management screen. 
-TODO: Allow forcing specific database format
+TODO: Allow forcing specific database format - For stacks

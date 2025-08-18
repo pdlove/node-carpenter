@@ -10,8 +10,8 @@ export default class CarpenterModelRelationship {
     parentConnection
     childModel = null; //Populated during the resolution phase
     childModelName = ''; // The model that is the child in the relationship, e.g. 'system.user'
-    childParentKey = ''; // The key in the child model that references the parent model, e.g. 'userID'
-    childPeerKey = ''; // The key in the child model that references the peer model, e.g. 'userID'
+    childParentKey = ''; // The key in the child model that references the parent model, e.g. 'user_id'
+    childPeerKey = ''; // The key in the child model that references the peer model, e.g. 'user_id'
     peerModel = null; //Populated during the resolution phase
     peerModelName = ''; // The model that is the peer in the relationship, e.g.
     peerKey = ''; //This is the primary key of the peer in a Many-to-Many.

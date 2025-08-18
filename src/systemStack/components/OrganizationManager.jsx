@@ -13,26 +13,26 @@ export default function OrganizationManager({ http }) {
         ; (async () => {
             const list = await http('/api/data/organization')
             setOrganizations(list)
-            if (list.length && !selectedOrgId) setSelectedOrgId(list[0].organizationId)
+            if (list.length && !selectedOrgId) setSelectedOrgId(list[0].organization_id)
         })().catch(console.error)
     }, [])
 
-    const selectedOrg = useMemo(() => organizations.find((o) => o.organizationId === selectedOrgId) || null, [organizations, selectedOrgId])
+    const selectedOrg = useMemo(() => organizations.find((o) => o.organization_id === selectedOrgId) || null, [organizations, selectedOrgId])
 
     const upsertOrg = async (org) => {
-        if (org.organizationId) {
-            const updated = await http(`/api/data/organization/${org.organizationId}`, { method: 'PUT', body: JSON.stringify(org) })
-            setOrganizations((list) => list.map((x) => (x.organizationId === updated.organizationId ? updated : x)))
+        if (org.organization_id) {
+            const updated = await http(`/api/data/organization/${org.organization_id}`, { method: 'PUT', body: JSON.stringify(org) })
+            setOrganizations((list) => list.map((x) => (x.organization_id === updated.organization_id ? updated : x)))
         } else {
             const created = await http(`/api/data/organization`, { method: 'POST', body: JSON.stringify(org) })
             setOrganizations((list) => [...list, created])
-            setSelectedOrgId(created.organizationId)
+            setSelectedOrgId(created.organization_id)
         }
     }
 
     const deleteOrg = async (orgId) => {
         await http(`/api/data/organization/${orgId}`, { method: 'DELETE' })
-        setOrganizations((list) => list.filter((x) => x.organizationId !== orgId))
+        setOrganizations((list) => list.filter((x) => x.organization_id !== orgId))
         if (selectedOrgId === orgId) setSelectedOrgId(null)
     }
 
@@ -43,14 +43,14 @@ export default function OrganizationManager({ http }) {
                     <div class="label" style={{ margin: 0 }}>Organization</div>
                     <select class="input" style={{ width: 320 }} value={selectedOrgId || ''} onChange={(e) => setSelectedOrgId(e.currentTarget.value)}>
                         {organizations.map((o) => (
-                            <option key={o.organizationId} value={o.organizationId}>{o.name}</option>
+                            <option key={o.organization_id} value={o.organization_id}>{o.name}</option>
                         ))}
                     </select>
                     <button class="btn" onClick={() => setOrgModal({ mode: 'add', org: { name: '', description: '', otpRequired: 0 } })}>Add</button>
                     {selectedOrg ? (
                         <>
                             <button class="btn" onClick={() => setOrgModal({ mode: 'edit', org: selectedOrg })}>Edit</button>
-                            <button class="btn danger" onClick={() => deleteOrg(selectedOrg.organizationId)}>Delete</button>
+                            <button class="btn danger" onClick={() => deleteOrg(selectedOrg.organization_id)}>Delete</button>
                         </>
                     ) : null}
                 </div>
@@ -63,7 +63,7 @@ export default function OrganizationManager({ http }) {
 
             {selectedOrg ? (
                 <div style={{ marginTop: 12 }}>
-                    {tab === 'users' ? <UsersPanel http={http} organizationId={selectedOrg.organizationId} /> : <GroupsPanel http={http} organizationId={selectedOrg.organizationId} />}
+                    {tab === 'users' ? <UsersPanel http={http} organization_id={selectedOrg.organization_id} /> : <GroupsPanel http={http} organization_id={selectedOrg.organization_id} />}
                 </div>
             ) : (
                 <div style={{ color: 'var(--muted)', marginTop: 12 }}>No organization selected</div>
@@ -124,39 +124,39 @@ function OrgModal({ mode, org, onClose, onSave }) {
     )
 }
 
-function UsersPanel({ http, organizationId }) {
+function UsersPanel({ http, organization_id }) {
     const [users, setUsers] = useState([])
     const [modal, setModal] = useState(null)
 
     const refresh = async () => {
-        const list = await http(`/api/data/user?organizationId=${encodeURIComponent(organizationId)}`)
+        const list = await http(`/api/data/user?organization_id=${encodeURIComponent(organization_id)}`)
         setUsers(list)
     }
 
     useEffect(() => {
         refresh().catch(console.error)
-    }, [organizationId])
+    }, [organization_id])
 
     const upsert = async (user) => {
-        if (user.userId) {
-            const updated = await http(`/api/data/user/${user.userId}`, { method: 'PUT', body: JSON.stringify(user) })
-            setUsers((list) => list.map((x) => (x.userId === updated.userId ? updated : x)))
+        if (user.user_id) {
+            const updated = await http(`/api/data/user/${user.user_id}`, { method: 'PUT', body: JSON.stringify(user) })
+            setUsers((list) => list.map((x) => (x.user_id === updated.user_id ? updated : x)))
         } else {
-            const created = await http(`/api/data/user`, { method: 'POST', body: JSON.stringify({ ...user, organizationId }) })
+            const created = await http(`/api/data/user`, { method: 'POST', body: JSON.stringify({ ...user, organization_id }) })
             setUsers((list) => [...list, created])
         }
     }
 
-    const remove = async (userId) => {
-        await http(`/api/data/user/${userId}`, { method: 'DELETE' })
-        setUsers((list) => list.filter((x) => x.userId !== userId))
+    const remove = async (user_id) => {
+        await http(`/api/data/user/${user_id}`, { method: 'DELETE' })
+        setUsers((list) => list.filter((x) => x.user_id !== user_id))
     }
 
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <div style={{ color: 'var(--muted)' }}>{users.length} users</div>
-                <button class="btn" onClick={() => setModal({ mode: 'add', user: { userType: 'person', groups: [], name: '', email: '', title: '', description: '' } })}>Add User</button>
+                <button class="btn" onClick={() => setModal({ mode: 'add', user: { user_type: 'person', groups: [], name: '', email: '', title: '', description: '' } })}>Add User</button>
             </div>
             <table class="table">
                 <thead>
@@ -170,7 +170,7 @@ function UsersPanel({ http, organizationId }) {
                 </thead>
                 <tbody>
                     {users.map((u) => (
-                        <tr key={u.userId}>
+                        <tr key={u.user_id}>
                             <td>{u.name}</td>
                             <td>{u.email}</td>
                             <td>{u.title}</td>
@@ -178,7 +178,7 @@ function UsersPanel({ http, organizationId }) {
                             <td style={{ textAlign: 'right' }}>
                                 <div class="row" style={{ justifyContent: 'flex-end' }}>
                                     <button class="btn" onClick={() => setModal({ mode: 'edit', user: u })}>Edit</button>
-                                    <button class="btn danger" onClick={() => remove(u.userId)}>Delete</button>
+                                    <button class="btn danger" onClick={() => remove(u.user_id)}>Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -277,8 +277,8 @@ function UserModal({ http, mode, user, onClose, onSave, refresh }) {
                                                 if (isChecked) next = [...groups, g.name]
                                                 else next = groups.filter((x) => x !== g.name)
                                                 setGroups(next)
-                                                if (user?.userId) {
-                                                    await http(`/api/security/membership/${user.userId}/${g.securityGroupId}`, { method: isChecked ? 'POST' : 'DELETE' })
+                                                if (user?.user_id) {
+                                                    await http(`/api/security/membership/${user.user_id}/${g.security_group_id}`, { method: isChecked ? 'POST' : 'DELETE' })
                                                     await refresh()
                                                 }
                                             }}
@@ -300,33 +300,33 @@ function UserModal({ http, mode, user, onClose, onSave, refresh }) {
     )
 }
 
-function GroupsPanel({ http, organizationId }) {
+function GroupsPanel({ http, organization_id }) {
     const [groups, setGroups] = useState([])
     const [modal, setModal] = useState(null)
     const [membersModal, setMembersModal] = useState(null)
 
     const refresh = async () => {
-        const list = await http(`/api/data/group?organizationId=${encodeURIComponent(organizationId)}`)
+        const list = await http(`/api/data/group?organization_id=${encodeURIComponent(organization_id)}`)
         setGroups(list)
     }
 
     useEffect(() => {
         refresh().catch(console.error)
-    }, [organizationId])
+    }, [organization_id])
 
     const upsert = async (group) => {
-        if (group.securityGroupId) {
-            const updated = await http(`/api/data/group/${group.securityGroupId}`, { method: 'PUT', body: JSON.stringify(group) })
-            setGroups((list) => list.map((x) => (x.securityGroupId === updated.securityGroupId ? updated : x)))
+        if (group.security_group_id) {
+            const updated = await http(`/api/data/group/${group.security_group_id}`, { method: 'PUT', body: JSON.stringify(group) })
+            setGroups((list) => list.map((x) => (x.security_group_id === updated.security_group_id ? updated : x)))
         } else {
-            const created = await http(`/api/data/group`, { method: 'POST', body: JSON.stringify({ ...group, organizationId }) })
+            const created = await http(`/api/data/group`, { method: 'POST', body: JSON.stringify({ ...group, organization_id }) })
             setGroups((list) => [...list, created])
         }
     }
 
     const remove = async (groupId) => {
         await http(`/api/data/group/${groupId}`, { method: 'DELETE' })
-        setGroups((list) => list.filter((x) => x.securityGroupId !== groupId))
+        setGroups((list) => list.filter((x) => x.security_group_id !== groupId))
     }
 
     return (
@@ -346,7 +346,7 @@ function GroupsPanel({ http, organizationId }) {
                 </thead>
                 <tbody>
                     {groups.map((g) => (
-                        <tr key={g.securityGroupId}>
+                        <tr key={g.security_group_id}>
                             <td>{g.name}</td>
                             <td>{g.description}</td>
                             <td style={{ color: 'var(--muted)' }}>{g.users?.length ?? 0}</td>
@@ -354,7 +354,7 @@ function GroupsPanel({ http, organizationId }) {
                                 <div class="row" style={{ justifyContent: 'flex-end' }}>
                                     <button class="btn" onClick={() => setModal({ mode: 'edit', group: g })}>Edit</button>
                                     <button class="btn" onClick={() => setMembersModal(g)}>Members</button>
-                                    <button class="btn danger" onClick={() => remove(g.securityGroupId)}>Delete</button>
+                                    <button class="btn danger" onClick={() => remove(g.security_group_id)}>Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -420,28 +420,28 @@ function GroupMembersModal({ http, group, onClose }) {
 
     useEffect(() => {
         ; (async () => {
-            const allUsers = await http(`/api/data/user?organizationId=${encodeURIComponent(group.organizationId)}`)
+            const allUsers = await http(`/api/data/user?organization_id=${encodeURIComponent(group.organization_id)}`)
             setAvailableUsers(allUsers)
             setUsers(allUsers.filter((u) => (group.users || []).includes(u.email)))
         })().catch(console.error)
-    }, [group.organizationId])
+    }, [group.organization_id])
 
-    const addUser = async (userId) => {
+    const addUser = async (user_id) => {
         setBusy(true)
         try {
-            await http(`/api/security/membership/${userId}/${group.securityGroupId}`, { method: 'POST' })
-            const u = availableUsers.find((x) => x.userId === userId)
+            await http(`/api/security/membership/${user_id}/${group.security_group_id}`, { method: 'POST' })
+            const u = availableUsers.find((x) => x.user_id === user_id)
             if (u) setUsers((list) => [...list, u])
         } finally {
             setBusy(false)
         }
     }
 
-    const removeUser = async (userId) => {
+    const removeUser = async (user_id) => {
         setBusy(true)
         try {
-            await http(`/api/security/membership/${userId}/${group.securityGroupId}`, { method: 'DELETE' })
-            setUsers((list) => list.filter((x) => x.userId !== userId))
+            await http(`/api/security/membership/${user_id}/${group.security_group_id}`, { method: 'DELETE' })
+            setUsers((list) => list.filter((x) => x.user_id !== user_id))
         } finally {
             setBusy(false)
         }
@@ -458,7 +458,7 @@ function GroupMembersModal({ http, group, onClose }) {
                             {users.map((u) => (
                                 <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0' }}>
                                     <span>{u.name} <span class="label">({u.email})</span></span>
-                                    <button class="btn danger" disabled={busy} onClick={() => removeUser(u.userId)}>Remove</button>
+                                    <button class="btn danger" disabled={busy} onClick={() => removeUser(u.user_id)}>Remove</button>
                                 </li>
                             ))}
                         </ul>
@@ -468,9 +468,9 @@ function GroupMembersModal({ http, group, onClose }) {
                         <select class="input" onChange={(e) => addUser(e.currentTarget.value)} disabled={busy}>
                             <option value="">Select user...</option>
                             {availableUsers
-                                .filter((u) => !users.some((x) => x.userId === u.userId))
+                                .filter((u) => !users.some((x) => x.user_id === u.user_id))
                                 .map((u) => (
-                                    <option value={u.userId}>{u.name} ({u.email})</option>
+                                    <option value={u.user_id}>{u.name} ({u.email})</option>
                                 ))}
                         </select>
                     </div>

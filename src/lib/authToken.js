@@ -38,7 +38,7 @@ export class TokenAuthentication {
         if (token) {
             try {
                 user = jwt.verify(token, JWT_SECRET)
-                //If userType == "person" then tokenFromCookie needs to be non-null.
+                //If user_type == "person" then tokenFromCookie needs to be non-null.
                 //Otherwise tokenFromHeader should be non-null.
             } catch (error) {
                 handleError(`Invalid Token: ${error}`);
@@ -47,14 +47,14 @@ export class TokenAuthentication {
         } else {
             // No token provided, set the session to the guest/public session.
             if (TokenAuthentication.carpenterServer.options.singleUserMode) {
-                user = { sessionId: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" }; // Single user mode, use the admin user session
+                user = { session_id: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" }; // Single user mode, use the admin user session
             } else {
-                user = { sessionId: "00000000-0000-0000-0000-000000000000" };
+                user = { session_id: "00000000-0000-0000-0000-000000000000" };
             }
         }
 
         const Session = TokenAuthentication.carpenterServer.models.UserSession;
-        let thisSession = await Session.browseObjects({ filter: { sessionId: user.sessionId } });
+        let thisSession = await Session.browseObjects({ filter: { session_id: user.session_id } });
         if (thisSession.length !== 1) {
             handleError("Token Validation Error - No Session")
             return;
@@ -69,9 +69,9 @@ export class TokenAuthentication {
             }
         }
 
-        thisSession.lastUseTime = new Date(); //We set lastUseTime here so 
+        thisSession.last_use_time = new Date(); //We set last_use_time here so 
 
-        if (thisSession.expireTime < new Date()) {
+        if (thisSession.expire_time < new Date()) {
             //Session is Expired
             thisSession.status = "Expired";
             thisSession.save();
@@ -94,13 +94,13 @@ export class TokenAuthentication {
                 subGroup = await subGroup.getParentGroup();
             }
         }
-        //user.sessionId
-        //user.userId 
+        //user.session_id
+        //user.user_id 
         const returnObject = new SessionData();
 
         returnObject.session = thisSession;
         returnObject.user = thisUser;
-        returnObject.userId = thisUser.userId;
+        returnObject.user_id = thisUser.user_id;
         returnObject.groups = userGroups;
         returnObject.error = ""; //No error.
         req.session = returnObject; // The 'user' here is the decoded JWT payload
@@ -117,7 +117,7 @@ export class TokenAuthentication {
 class SessionData {
     session = null;
     user = null;
-    userId="";
+    user_id="";
     groups = [];
     error = "";
     
