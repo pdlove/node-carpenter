@@ -12,4 +12,8 @@ TODO: How do I pack this thing up for distribution
 TODO: Need a dynamic webpack to perform webpack only on screens the user has security to access
 TODO: Longterm - Client-side data caching options for offline use
 TODO: Create Unit tests
-TODO: Allow forcing specific database format - For stacks
+TODO: Allow forcing specific database format - For stacks'
+
+
+I’m working on a node.js framework and I want to introduce a job scheduler/manager. 
+It should have a Base class for a job and store the information about the job, scheduling, executions, and logs in a database using sequelize. The base class will be extended by developers to create job templates.
