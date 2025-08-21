@@ -2,10 +2,10 @@ import { CarpenterModel, CarpenterModelRelationship, DataTypes } from "../../../
 
 export default class JobExecution extends CarpenterModel {
     static sequelizeDefinition = {
-        job_execution_id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        job_template_id: { type: DataTypes.UUID, allowNull: false, references: { model: JobTemplate, key: 'id' } },
-        job_schedule_id: { type: DataTypes.UUID, allowNull: true, references: { model: JobSchedule, key: 'id' }, comment: 'Null for ad-hoc executions' },
-        carpenter_server_id: { type: DataTypes.UUID, allowNull: true, comment: 'ID of server that claimed this execution' },
+        execution_id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
+        template_id: { type: DataTypes.UUID, allowNull: false },
+        schedule_id: { type: DataTypes.UUID, allowNull: true, comment: 'Null for ad-hoc executions' },
+        worker_id: { type: DataTypes.UUID, allowNull: true, comment: 'ID of server that claimed this execution' },
         status: {
             type: DataTypes.ENUM(
                 'pending',
@@ -38,15 +38,30 @@ export default class JobExecution extends CarpenterModel {
 
     }
 
-    static sequelizeConnections = [];
+    static sequelizeConnections = [
+        new CarpenterModelRelationship({
+            connectionType: "1M",
+            parentModelName: "JobTemplate",
+            required: true, childParentKey: 'template_id', childModelName: "JobExecution"
+        }),
+        new CarpenterModelRelationship({
+            connectionType: "1M",
+            parentModelName: "JobSchedule",
+            required: true, childParentKey: 'schedule_id', childModelName: "JobExecution"
+        }),
+        new CarpenterModelRelationship({
+            connectionType: "1M",
+            parentModelName: "CarpenterWorker",
+            required: false, childParentKey: 'worker_id', childModelName: "JobExecution"
+        }),
+    ];
     static seedDataCore = [];
     static seedDataDemo = [
-        [
             {
-                job_execution_id: 'exec-001-backup-completed',
-                job_template_id: 'bdb4d4e7-ef40-455b-b0a5-e4eb368578db',
-                job_schedule_id: 'sch-001-backup-daily',
-                carpenter_server_id: 'server-01-prod',
+                execution_id: '56653e54-7fbe-4142-9a71-fec97588d689',
+                template_id: 'bdb4d4e7-ef40-455b-b0a5-e4eb368578db',
+                schedule_id: 'afa7e9bb-c5ef-49f4-bbef-b68c1c8b4d3a',
+                worker_id: "00000000-0000-0000-0000-000000000000",
                 status: 'completed',
                 configuration: {
                     backup_path: '/var/backups/daily',
@@ -78,10 +93,10 @@ export default class JobExecution extends CarpenterModel {
                 updated_at: new Date('2025-08-20T02:15:32Z')
             },
             {
-                job_execution_id: 'exec-002-email-running',
-                job_template_id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
-                job_schedule_id: null,
-                server_id: 'server-02-prod',
+                execution_id: '919c386a-a830-45ce-8692-f5582f8538ef',
+                template_id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+                schedule_id: null,
+                worker_id: "00000000-0000-0000-0000-000000000000",
                 status: 'running',
                 configuration: {
                     recipients: 'user1@company.com,user2@company.com,user3@company.com',
@@ -107,10 +122,10 @@ export default class JobExecution extends CarpenterModel {
                 updated_at: new Date('2025-08-20T14:33:15Z')
             },
             {
-                job_execution_id: 'exec-003-import-failed',
-                job_template_id: 'f1e2d3c4-b5a6-9876-5432-1098765432ab',
-                job_schedule_id: null,
-                server_id: 'server-01-prod',
+                execution_id: '70126829-2f23-4a58-b547-0391f6ad7605',
+                template_id: 'f1e2d3c4-b5a6-9876-5432-1098765432ab',
+                schedule_id: null,
+                worker_id: "00000000-0000-0000-0000-000000000000",
                 status: 'failed',
                 configuration: {
                     file_path: '/uploads/customer_data.csv',
@@ -135,7 +150,5 @@ export default class JobExecution extends CarpenterModel {
                 created_at: new Date('2025-08-20T11:14:30Z'),
                 updated_at: new Date('2025-08-20T11:18:23Z')
             }
-        ]
-
     ];
 };

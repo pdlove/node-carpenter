@@ -10,6 +10,12 @@ import SecurityGroupGroupMembership from './UserSystem/SecurityGroupGroupMembers
 import UserSession from './UserSystem/UserSession.js';
 
 import CarpenterWorker from './system/CarpenterWorker.js';
+import MenuItem from './system/menuItem.js';
+
+import JobTemplate from './JobSystem/JobTemplate.js';
+import JobSchedule from './JobSystem/JobSchedule.js';
+import JobExecution  from './JobSystem/JobExecution.js';
+import JobExecutionLog from './JobSystem/JobExecutionLog.js';
 
 export const modelList = {
     Organization,
@@ -22,6 +28,16 @@ export const modelList = {
     UserSession,
     Location,
 
-    CarpenterWorker
+    CarpenterWorker,
+    MenuItem, 
+    
+    
+    JobTemplate,
+    JobSchedule,
+    JobExecution,
+    JobExecutionLog
 };
-export const modelSeedOrder = ['Organization','Person','User', 'SecurityGroup', 'SecurityGroupGroupMembership', 'SecurityGroupUserMembership', 'UserSession','Location','CarpenterWorker'];
+
+export const modelSeedOrder = ['Organization','Person','User', 'SecurityGroup', 'SecurityGroupGroupMembership', 'SecurityGroupUserMembership', 'UserSession','Location',
+                                'CarpenterWorker', 'MenuItem',
+                                'JobTemplate', 'JobSchedule', 'JobExecution', 'JobExecutionLog'];

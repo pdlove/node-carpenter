@@ -37,7 +37,7 @@ export default class JobSchedule extends CarpenterModel {
     static seedDataCore = [];
     static seedDataDemo = [
         {
-            job_schedule_id: 'sch-001-backup-daily',
+            job_schedule_id: 'afa7e9bb-c5ef-49f4-bbef-b68c1c8b4d3a',
             job_template_id: 'bdb4d4e7-ef40-455b-b0a5-e4eb368578db',
             name: 'Daily Database Backup',
             description: 'Automated daily backup at 2 AM with 30-day retention',

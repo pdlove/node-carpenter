@@ -13,21 +13,22 @@ export default class Login extends CarpenterRoute {
         return [
             { path: ('/api/login'), method: "POST", function: this.processLogin.bind(this), isAPI: true },
             { path: ('/api/login/check'), method: "GET", function: this.processLoginCheck.bind(this), isAPI: true },
+            { path: ('/api/logout'), method: "POST", function: this.processLogout.bind(this), isAPI: true },            
         ]
     }
     static async processLogin(req, res) {
-        const { email, password, otp } = req.body;
+        const { username, password, otp } = req.body;
 
         //Models used here:
         const { User, UserSession, UserTeamMembership, UserTeam } = this.carpenterServer.models;
         // 1. Basic input validation
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Email and password are required.' });
+        if (!username || !password) {
+            return res.status(400).json({ message: 'username and password are required.' });
         }
 
         try {
             // 2. Find the user by email
-            let user = await User.browseObjects({ filter: { email } });
+            let user = await User.browseObjects({ filter: { email: username } });
             if (user.length !== 1) {
                 return res.status(401).json({ message: 'Invalid credentials.' });
             }
@@ -126,10 +127,20 @@ export default class Login extends CarpenterRoute {
     }
 
     static async processLoginCheck(req, res) {
-        if (req.session.error)
+        if (req.session.error || req.session.user_id==='00000000-0000-0000-0000-000000000000') //If the ticket was rejected or resolved to a public user.
             res.status(403).send(req.session.error);
         else
             res.status(200).json({ mesage: "Good" });
+    }
+
+    static async processLogout(req, res) {
+        //Get the Session Object
+        //Flag session as closed
+        //Delete the cookie
+        //Return Logged Out
+        if (req.session.error || req.session.user_id==='00000000-0000-0000-0000-000000000000') //If the ticket was rejected or resolved to a public user.
+            res.status(200).json({ mesage: "Logged Out" });
+        res.status(200).json({ mesage: "Logged Out" });
     }
 }
 

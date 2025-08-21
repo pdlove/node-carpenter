@@ -77,7 +77,7 @@ export default class JobTemplate extends CarpenterModel {
         supports_undo: false,
         created_at: new Date('2025-01-16T09:30:00Z'),
         updated_at: new Date('2025-01-16T09:30:00Z')
-    },{
+    }, {
         job_template_id: 'bdb4d4e7-ef40-455b-b0a5-e4eb368578db',
         name: 'Database Backup Job',
         class_name: 'DatabaseBackupJob',
@@ -115,17 +115,17 @@ export default class JobTemplate extends CarpenterModel {
         },
         default_interval: 24,
         default_interval_units: 'h',
-        default_run_count: 0, 
-        run_access: 'admin', 
-        schedule_access: 'admin', 
-        config_access: 'admin', 
-        is_enabled: true, 
-        supports_pause: true, 
-        supports_cancel: true, 
+        default_run_count: 0,
+        run_access: 'admin',
+        schedule_access: 'admin',
+        config_access: 'admin',
+        is_enabled: true,
+        supports_pause: true,
+        supports_cancel: true,
         supports_undo: false,
         created_at: new Date('2025-01-15T10:00:00Z'),
         updated_at: new Date('2025-01-15T10:00:00Z')
-    },    
+    },
     {
         job_template_id: 'f1e2d3c4-b5a6-9876-5432-1098765432ab',
         name: 'Data Import Processor',

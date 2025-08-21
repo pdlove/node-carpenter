@@ -22,7 +22,7 @@ export default class CarpenterServer {
     options = {
         useFrontEnd: true,
         startWebIndex: null, //If set, this becomes the index.html passed to the client. If null, the one from the system stack is used.
-        startReact: '/part/system/test.jsx', //Allows overriding the default main.jsx. If null, the one from the system stack is used.
+        startReact: '/part/system/LazyApp.jsx', //Allows overriding the default main.jsx. If null, the one from the system stack is used.
         debugLevel: 0, // 0 = No Debug, 1 = Basic Debug, 2 = Verbose Debug, 3 = Very Verbose Debug (Includes SQL Queries)
         demoData: false, //Determines if demo data is seeded.
         dbConfig: {
@@ -178,6 +178,7 @@ export default class CarpenterServer {
                     if (this.options.debugLevel > 1) console.log(JSON.stringify(item));
                     await model.sequelizeObject.create(item);
                 }
+                if (this.options.debugLevel > 0) console.log('Done Seeding Demo Data for ' + modelName);
             }
         }
     }
@@ -286,7 +287,7 @@ export default class CarpenterServer {
             res.type('text/javascript');
             res.send(`
 import { h, render } from '/vendor/preact/preact.mjs';
-import { App } from '${this.options.startReact}';
+import App from '${this.options.startReact}';
 
 const root = document.getElementById('app');
 render(h(App, null), document.getElementById('app'));

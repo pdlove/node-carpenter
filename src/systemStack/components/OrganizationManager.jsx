@@ -37,7 +37,7 @@ export default function OrganizationManager({ http }) {
     }
 
     return (
-        <div class="card" style={{ padding: 16 }}>
+        <div data-theme="light" class="card org-manager" style={{ padding: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <div class="label" style={{ margin: 0 }}>Organization</div>

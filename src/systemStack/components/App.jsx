@@ -2,33 +2,39 @@ import { h, render } from '/vendor/preact/preact.mjs';
 import { useEffect, useMemo, useRef, useState } from '/vendor/preact/hooks.mjs';
 
 function lazy(loader) {
-  return function LazyWrapper(props) {
-    const [Comp, setComp] = useState(null);
+    return function LazyWrapper(props) {
+        const [Comp, setComp] = useState(null);
 
-    useEffect(() => {
-      let mounted = true;
-      loader().then((mod) => {
-        if (mounted) setComp(() => mod.default || mod);
-      });
-      return () => (mounted = false);
-    }, []);
+        useEffect(() => {
+            let mounted = true;
+            loader().then((mod) => {
+                if (mounted) setComp(() => mod.default || mod);
+            });
+            return () => (mounted = false);
+        }, []);
 
-    if (!Comp) return <div>Loading...</div>;
-    return <Comp {...props} />;
-  };
+        if (!Comp) return <div>Loading...</div>;
+        return <Comp {...props} />;
+    };
 }
 
-const LoginScreen = lazy(() => import('./Login.jsx'))
-const OrganizationManager = lazy(() => import('./OrganizationManager.jsx'))
+const LoginScreen = lazy(() => import('./Login.jsx'));
+const OrganizationManager = lazy(() => import('./OrganizationManager.jsx'));
+
+// NEW: Lazy-load these from "./"
+const ChangePassword = lazy(() => import('./ChangePassword.jsx'));
+const ChangeOtp = lazy(() => import('./ChangeOtp.jsx'));
+
 const panelList = ['User_Login', 'User_ChangePassword', 'User_ConfigOtp', 'Security_OrganizationManager'];
+
 async function http(input, init) {
     const res = await fetch(input, {
         ...init,
         headers: { 'Content-Type': 'application/json', ...(init && init.headers ? init.headers : {}) },
         credentials: 'include',
-    })
-    if (!res.ok) throw new Error((await res.text().catch(() => '')) || `${res.status} ${res.statusText}`)
-    return res.headers.get('content-type')?.includes('application/json') ? res.json() : undefined
+    });
+    if (!res.ok) throw new Error((await res.text().catch(() => '')) || `${res.status} ${res.statusText}`);
+    return res.headers.get('content-type')?.includes('application/json') ? res.json() : undefined;
 }
 
 export function App() {
@@ -37,17 +43,35 @@ export function App() {
     const [showOtp, setShowOtp] = useState(false)
     const [pendingCredentials, setPendingCredentials] = useState(null)
 
-
+    const [bootstrapping, setBootstrapping] = useState(true);
+    useEffect(() => {
+        let mounted = true;
+        (async () => {
+            try {
+                const data = await http('/api/login/check', { method: 'GET' });
+                if (mounted && data?.mesage === 'Good') {
+                    setIsAuthenticated(true);
+                }
+            } catch {
+                // not logged in or endpoint returned an error; show login
+            } finally {
+                if (mounted) setBootstrapping(false);
+            }
+        })();
+        return () => { mounted = false; };
+    }, []);
 
     return (
         <div style={{ minHeight: '100%' }}>
-                {!isAuthenticated ? (
-                    <LoginScreen onLogin={setIsAuthenticated} error={loginError} />
-                ) : (
-                    <Shell />
-                )}
+            {bootstrapping ? (
+                <div>Loading...</div>
+            ) : !isAuthenticated ? (
+                <LoginScreen onLogin={setIsAuthenticated} error={loginError} />
+            ) : (
+                <Shell />
+            )}
         </div>
-    )
+    );
 }
 
 function Shell() {
@@ -83,9 +107,9 @@ function Shell() {
             </div>
 
             <div class="container" style={{ paddingTop: 16 }}>
-                    {activeView === 'changepwd' && <ChangePassword http={http} />}
-                    {activeView === 'changeotp' && <ChangeOtp http={http} />}
-                    {activeView === 'org' && <OrganizationManager http={http} />}
+                {activeView === 'changepwd' && <ChangePassword http={http} />}
+                {activeView === 'changeotp' && <ChangeOtp http={http} />}
+                {activeView === 'org' && <OrganizationManager http={http} />}
             </div>
         </div>
     )
