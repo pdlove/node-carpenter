@@ -1,5 +1,7 @@
 import { CarpenterModel, CarpenterModelRelationship, DataTypes } from "../../../../index.js";
 
+const NIL_UUID = "00000000-0000-0000-0000-000000000000";
+
 export default class MenuItem extends CarpenterModel {
   static defaultReadAccess = "guest";
   static sequelizeDefinition = {
@@ -9,675 +11,137 @@ export default class MenuItem extends CarpenterModel {
     icon_class: { type: DataTypes.STRING, allowNull: true, comment: 'If using the CSS-based icons it will have a class' },
     icon_text: { type: DataTypes.STRING, allowNull: true, comment: 'If not using CSS-based icons, this is the 1 or 2 letters to display in a circle where the icon goes.' },
     display_text: { type: DataTypes.STRING, allowNull: false, comment: 'Text Displayed to the user when not in a collapsed view' },
-    nav_jsx: { type: DataTypes.STRING, allowNull: false, comment: 'React Panel to Load, if any' },
-    nav_jsx_parameters: { type: DataTypes.JSON, allowNull: false, comment: 'Parameters to pass to a react panel, if any' },
-    nav_jsx_asmodal: { type: DataTypes.BOOLEAN, allowNull: false, comment: 'If loading a react panel, this as TRUE will display a modal instead of loading in the main viewport' },
-    nav_popup_link: { type: DataTypes.STRING, allowNull: false, comment: 'If filled, then this URL is opened in a new tab' },
-    nav_js_code: { type: DataTypes.STRING, allowNull: false, comment: 'If filled, this Javascript is executed on click.' },
+    nav_jsx: { type: DataTypes.STRING, allowNull: true, comment: 'React Panel to Load, if any' },
+    nav_jsx_parameters: { type: DataTypes.JSON, allowNull: true, comment: 'Parameters to pass to a react panel, if any' },
+    nav_jsx_asmodal: { type: DataTypes.BOOLEAN, allowNull: true, comment: 'If loading a react panel, this as TRUE will display a modal instead of loading in the main viewport' },
+    nav_popup_link: { type: DataTypes.STRING, allowNull: true, comment: 'If filled, then this URL is opened in a new tab' },
+    nav_js_code: { type: DataTypes.STRING, allowNull: true, comment: 'If filled, this Javascript is executed on click.' },
   }
 
   static sequelizeOptions = {
     indexes: [{ unique: true, fields: ['parent_menu_id', 'sort_order'] }]
   };
 
-  static sequelizeConnections = [];
+  static async ensureMenuPath(menuPath, leafNavProps = {}) {
+    // normalize & split on backslashes (supports single or doubled)
+    const segments = menuPath
+      .split(/\\+/g)
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    if (segments.length === 0) {
+      throw new Error('menuPath is empty after normalization.');
+    }
+
+    const t = await this.carpenterServer.sequelize.transaction();
+    try {
+      let parentId = NIL_UUID;
+      let parentRow = null;        // will always refer to the *current* parent row
+      const createdMap = {};       // segment -> boolean (created?)
+      const createdOrFound = [];   // the chain of nodes
+
+      for (const segment of segments) {
+        // Try to find the node under the current parent
+        let node = await this.sequelizeObject.findOne({
+          where: { parent_menu_id: parentId, display_text: segment },
+          transaction: t,
+          lock: t.LOCK.UPDATE // helps in PG; safe to include; no-op in sqlite
+        });
+
+        if (!node) {
+          // compute next sort_order within a transaction to avoid collisions
+          const siblingCount = await this.sequelizeObject.count({
+            where: { parent_menu_id: parentId },
+            transaction: t,
+            lock: t.LOCK.UPDATE
+          });
+
+          try {
+            node = await this.sequelizeObject.create({
+              parent_menu_id: parentId,
+              display_text: segment,
+              sort_order: siblingCount + 1
+            }, { transaction: t });
+
+            createdMap[segment] = true;
+          } catch (err) {
+            // If two writers raced, unique constraint may fire — re-read
+            // (requires the unique index on (parent_menu_id, display_text))
+            if (err.name === 'SequelizeUniqueConstraintError') {
+              node = await this.sequelizeObject.findOne({
+                where: { parent_menu_id: parentId, display_text: segment },
+                transaction: t,
+                lock: t.LOCK.UPDATE
+              });
+              createdMap[segment] = false;
+            } else {
+              throw err;
+            }
+          }
+        } else {
+          createdMap[segment] = false;
+        }
+
+        createdOrFound.push(node);
+        parentRow = node;         // parent for the next iteration becomes this node
+        parentId = node.menu_id;  // advance to next level
+      }
+
+      // The final (leaf) node is the last one we touched
+      const leaf = createdOrFound[createdOrFound.length - 1];
+
+      // The "parent menu" of the leaf is either:
+      //  - the previous node in the chain, if there was one
+      //  - or the synthetic "root" if path had only one segment
+      let parentMenu;
+      if (segments.length > 1) {
+        parentMenu = createdOrFound[createdOrFound.length - 2];
+      } else {
+        // Represent the root as a plain object
+        parentMenu = {
+          menu_id: NIL_UUID,
+          display_text: '(root)',
+          parent_menu_id: null,
+          sort_order: null
+        };
+      }
+
+      // Update nav_* fields on the leaf if provided
+      const navKeys = [
+        'icon_class', 'icon_text', 'nav_jsx', 'nav_jsx_parameters',
+        'nav_jsx_asmodal', 'nav_popup_link', 'nav_js_code'
+      ];
+      const updatePayload = {};
+      for (const k of navKeys) {
+        if (k in leafNavProps) updatePayload[k] = leafNavProps[k];
+      }
+      if (Object.keys(updatePayload).length > 0) {
+        await leaf.update(updatePayload, { transaction: t });
+      }
+
+      // Count number of entries on the parent (i.e., children of parentMenu)
+      const parentIdForCount = parentMenu.menu_id;
+      const numEntriesOnParent = await this.sequelizeObject.count({
+        where: { parent_menu_id: parentIdForCount },
+        transaction: t
+      });
+
+      await t.commit();
+
+      return {
+        path: segments,
+        parentMenu: parentMenu.get ? parentMenu.get({ plain: true }) : parentMenu,
+        numEntriesOnParent,
+        leaf: leaf.get({ plain: true }),
+        createdMap
+      };
+    } catch (e) {
+      await t.rollback();
+      throw e;
+    }
+  }
 
   static seedDataCore = []
 
-static seedDataDemo = [
-  // ROOT
-  {
-    "menu_id": "407c5d1c-1de6-4268-8e8a-7a5035c995ff",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 1,
-    "icon_class": "bi bi-speedometer2",
-    "icon_text": null,
-    "display_text": "Dashboard",
-    "nav_jsx": "DashboardPanel",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "4df376c3-506f-4464-9857-8b0f025ae725",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 2,
-    "icon_class": "bi bi-diagram-3",
-    "icon_text": null,
-    "display_text": "Devices & Topology",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "devices" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "a0b1e6a6-3b01-413f-8f15-0e8d3e73a54a",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 3,
-    "icon_class": "bi bi-clipboard-data",
-    "icon_text": null,
-    "display_text": "Events & Logs",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "events" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "c56bb2fd-eab0-4a18-8f88-e3e326115a9c",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 4,
-    "icon_class": "bi bi-server",
-    "icon_text": null,
-    "display_text": "Services",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "services" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "b9ff3e1f-37e0-4b1a-afa6-4f73a34c852e",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 5,
-    "icon_class": "bi bi-graph-up",
-    "icon_text": null,
-    "display_text": "Monitoring",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "monitoring" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "0f6a0e1a-d28d-46c5-a2c7-03b8e54d0d0e",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 6,
-    "icon_class": "bi bi-file",
-    "icon_text": null,
-    "display_text": "Reports",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "reports" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "9dcd2f94-b0b8-4f61-9a03-d420e0c52cab",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 7,
-    "icon_class": "bi bi-tools",
-    "icon_text": null,
-    "display_text": "Tools",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "tools" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 8,
-    "icon_class": "bi bi-gear",
-    "icon_text": null,
-    "display_text": "Administration",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "admin" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "8a06a327-701c-47bb-bd7e-0fc01323868e",
-    "parent_menu_id": "00000000-0000-0000-0000-000000000000",
-    "sort_order": 9,
-    "icon_class": "bi bi-question-circle",
-    "icon_text": null,
-    "display_text": "Help & About",
-    "nav_jsx": "MenuSection",
-    "nav_jsx_parameters": { "section": "help" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Devices & Topology
-  {
-    "menu_id": "9d95b6b1-65a2-4bf7-a2e2-4b3c0c1a5a2d",
-    "parent_menu_id": "4df376c3-506f-4464-9857-8b0f025ae725",
-    "sort_order": 1,
-    "icon_class": "bi bi-pc",
-    "icon_text": null,
-    "display_text": "All Devices",
-    "nav_jsx": "DeviceList",
-    "nav_jsx_parameters": { "filter": "all" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "b167a2d2-3854-4d3f-8e2b-ecbd7c4df05a",
-    "parent_menu_id": "4df376c3-506f-4464-9857-8b0f025ae725",
-    "sort_order": 2,
-    "icon_class": "bi bi-layers",
-    "icon_text": null,
-    "display_text": "Device Groups",
-    "nav_jsx": "DeviceGroups",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "4f5a8e6c-ef93-4f84-beb4-2f3d18d1b2e0",
-    "parent_menu_id": "4df376c3-506f-4464-9857-8b0f025ae725",
-    "sort_order": 3,
-    "icon_class": "bi bi-plus-circle",
-    "icon_text": null,
-    "display_text": "Add Device",
-    "nav_jsx": "AddDeviceWizard",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": true,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "c3e212f1-5d0f-4f0b-96b0-1b8f0aa6b8e8",
-    "parent_menu_id": "4df376c3-506f-4464-9857-8b0f025ae725",
-    "sort_order": 4,
-    "icon_class": "bi bi-diagram-3",
-    "icon_text": null,
-    "display_text": "Topology Map",
-    "nav_jsx": "TopologyMap",
-    "nav_jsx_parameters": { "layout": "auto" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "19d83f38-7f87-48f0-a312-f8c8bc3dbb1b",
-    "parent_menu_id": "4df376c3-506f-4464-9857-8b0f025ae725",
-    "sort_order": 5,
-    "icon_class": "bi bi-geo-alt",
-    "icon_text": null,
-    "display_text": "Discovery Wizard",
-    "nav_jsx": "DiscoveryWizard",
-    "nav_jsx_parameters": { "method": "snmp" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "2b3a7f74-7730-4b5c-9a25-3dcb5b3d4d6c",
-    "parent_menu_id": "4df376c3-506f-4464-9857-8b0f025ae725",
-    "sort_order": 6,
-    "icon_class": "bi bi-file-code",
-    "icon_text": null,
-    "display_text": "Config Backups",
-    "nav_jsx": "ConfigBackups",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Events & Logs
-  {
-    "menu_id": "e2b167d5-3f1e-4d67-9429-7a0d39c786f4",
-    "parent_menu_id": "a0b1e6a6-3b01-413f-8f15-0e8d3e73a54a",
-    "sort_order": 1,
-    "icon_class": "bi bi-terminal",
-    "icon_text": null,
-    "display_text": "Syslog — Live",
-    "nav_jsx": "SyslogLive",
-    "nav_jsx_parameters": { "timeRange": "last_1h" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "7fcfe0a4-6a04-4a7a-9c28-3e9f1c6a8e5f",
-    "parent_menu_id": "a0b1e6a6-3b01-413f-8f15-0e8d3e73a54a",
-    "sort_order": 2,
-    "icon_class": "bi bi-search",
-    "icon_text": null,
-    "display_text": "Syslog — Search",
-    "nav_jsx": "SyslogSearch",
-    "nav_jsx_parameters": { "defaults": { "facility": [], "severity": [] } },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "6f1d0d36-1a7c-4d9a-b6a1-8e2a0cddfc2a",
-    "parent_menu_id": "a0b1e6a6-3b01-413f-8f15-0e8d3e73a54a",
-    "sort_order": 3,
-    "icon_class": "bi bi-bell",
-    "icon_text": null,
-    "display_text": "SNMP Traps",
-    "nav_jsx": "SnmpTrapViewer",
-    "nav_jsx_parameters": { "timeRange": "last_24h" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "d4c2fd33-9c2c-4a5c-9b8e-9a6b3f2c2f19",
-    "parent_menu_id": "a0b1e6a6-3b01-413f-8f15-0e8d3e73a54a",
-    "sort_order": 4,
-    "icon_class": "bi bi-sliders",
-    "icon_text": null,
-    "display_text": "Event Rules",
-    "nav_jsx": "EventRuleEditor",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "2b02cf60-3ae3-4d6d-a0b3-9c3f3c4a8c7b",
-    "parent_menu_id": "a0b1e6a6-3b01-413f-8f15-0e8d3e73a54a",
-    "sort_order": 5,
-    "icon_class": "bi bi-archive",
-    "icon_text": null,
-    "display_text": "Log Archives",
-    "nav_jsx": "LogArchives",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Services
-  {
-    "menu_id": "9a4d6d0a-2a35-4d52-8c02-2e4c2d63136d",
-    "parent_menu_id": "c56bb2fd-eab0-4a18-8f88-e3e326115a9c",
-    "sort_order": 1,
-    "icon_class": "bi bi-person-vcard",
-    "icon_text": null,
-    "display_text": "DHCP Leases",
-    "nav_jsx": "DhcpLeases",
-    "nav_jsx_parameters": { "scope": "all" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "f09ef7c3-6d38-4774-9a1d-5408c3c018b3",
-    "parent_menu_id": "c56bb2fd-eab0-4a18-8f88-e3e326115a9c",
-    "sort_order": 2,
-    "icon_class": "bi bi-diagram-3",
-    "icon_text": null,
-    "display_text": "DHCP Scopes",
-    "nav_jsx": "DhcpScopes",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "2c034b1f-3b4a-4e28-9a7e-6a6a2d3d8a7d",
-    "parent_menu_id": "c56bb2fd-eab0-4a18-8f88-e3e326115a9c",
-    "sort_order": 3,
-    "icon_class": "bi bi-globe",
-    "icon_text": null,
-    "display_text": "DNS Zones",
-    "nav_jsx": "DnsZones",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "b8c3f7c1-bf33-4a6d-83b3-3f2a7e0c7e30",
-    "parent_menu_id": "c56bb2fd-eab0-4a18-8f88-e3e326115a9c",
-    "sort_order": 4,
-    "icon_class": "bi bi-search",
-    "icon_text": null,
-    "display_text": "DNS Records Search",
-    "nav_jsx": "DnsRecordSearch",
-    "nav_jsx_parameters": { "preset": "A,AAAA,CNAME,MX" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Monitoring
-  {
-    "menu_id": "5b0838d6-0f25-4d1b-a0d9-2a3c7003f5e6",
-    "parent_menu_id": "b9ff3e1f-37e0-4b1a-afa6-4f73a34c852e",
-    "sort_order": 1,
-    "icon_class": "bi bi-clock",
-    "icon_text": null,
-    "display_text": "Pollers & Schedules",
-    "nav_jsx": "Pollers",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "cfb0b0e0-5f54-4f3a-8b06-2a6af24a74a6",
-    "parent_menu_id": "b9ff3e1f-37e0-4b1a-afa6-4f73a34c852e",
-    "sort_order": 2,
-    "icon_class": "bi bi-bullseye",
-    "icon_text": null,
-    "display_text": "Threshold Profiles",
-    "nav_jsx": "ThresholdProfiles",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "8f7226e4-3b39-4f8f-8312-94cfef6d2b9b",
-    "parent_menu_id": "b9ff3e1f-37e0-4b1a-afa6-4f73a34c852e",
-    "sort_order": 3,
-    "icon_class": "bi bi-exclamation-triangle",
-    "icon_text": null,
-    "display_text": "Alert Rules",
-    "nav_jsx": "AlertRules",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "b8a8c7bd-9d5d-4a20-9c90-b4a5a3d3a7d0",
-    "parent_menu_id": "b9ff3e1f-37e0-4b1a-afa6-4f73a34c852e",
-    "sort_order": 4,
-    "icon_class": "bi bi-bell",
-    "icon_text": null,
-    "display_text": "Active Alerts",
-    "nav_jsx": "ActiveAlerts",
-    "nav_jsx_parameters": { "severity": ["critical", "warning"] },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "d9b80f60-02d8-4a13-bdc4-642a3b3e1a2f",
-    "parent_menu_id": "b9ff3e1f-37e0-4b1a-afa6-4f73a34c852e",
-    "sort_order": 5,
-    "icon_class": "bi bi-tools",
-    "icon_text": null,
-    "display_text": "Maintenance Windows",
-    "nav_jsx": "MaintenanceWindows",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Reports
-  {
-    "menu_id": "ac2c21f7-2b2c-4e64-86d0-0e5afc7a4160",
-    "parent_menu_id": "0f6a0e1a-d28d-46c5-a2c7-03b8e54d0d0e",
-    "sort_order": 1,
-    "icon_class": "bi bi-check-circle",
-    "icon_text": null,
-    "display_text": "Availability",
-    "nav_jsx": "ReportAvailability",
-    "nav_jsx_parameters": { "period": "last_30_days" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "d2c4b8b3-cb3e-4c2b-88a5-fc6ddc4cb2b5",
-    "parent_menu_id": "0f6a0e1a-d28d-46c5-a2c7-03b8e54d0d0e",
-    "sort_order": 2,
-    "icon_class": "bi bi-arrows-expand",
-    "icon_text": null,
-    "display_text": "Interface Utilization",
-    "nav_jsx": "ReportInterfaceUtilization",
-    "nav_jsx_parameters": { "period": "last_24h" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "c3c67c4c-9b59-4f4d-9d66-52d8d1b0a4a4",
-    "parent_menu_id": "0f6a0e1a-d28d-46c5-a2c7-03b8e54d0d0e",
-    "sort_order": 3,
-    "icon_class": "bi bi-bar-chart",
-    "icon_text": null,
-    "display_text": "Top Talkers",
-    "nav_jsx": "ReportTopTalkers",
-    "nav_jsx_parameters": { "period": "last_24h" },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "f4b1e3b0-4d31-4a99-9a63-6f2b8c5d7a3f",
-    "parent_menu_id": "0f6a0e1a-d28d-46c5-a2c7-03b8e54d0d0e",
-    "sort_order": 4,
-    "icon_class": "bi bi-list",
-    "icon_text": null,
-    "display_text": "Inventory Summary",
-    "nav_jsx": "ReportInventory",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Tools
-  {
-    "menu_id": "d0b0c3f4-2f2a-4b8a-8a36-1f6e0a0e2d0c",
-    "parent_menu_id": "9dcd2f94-b0b8-4f61-9a03-d420e0c52cab",
-    "sort_order": 1,
-    "icon_class": "bi bi-activity",
-    "icon_text": null,
-    "display_text": "Ping",
-    "nav_jsx": "ToolPing",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "4b8e7d9f-2ad0-4f54-9b83-2a2e9d5b2e63",
-    "parent_menu_id": "9dcd2f94-b0b8-4f61-9a03-d420e0c52cab",
-    "sort_order": 2,
-    "icon_class": "bi bi-signpost",
-    "icon_text": null,
-    "display_text": "Traceroute",
-    "nav_jsx": "ToolTraceroute",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "d7f2c4b8-9a2c-4b2f-8a3d-1b2c3d4e5f6a",
-    "parent_menu_id": "9dcd2f94-b0b8-4f61-9a03-d420e0c52cab",
-    "sort_order": 3,
-    "icon_class": "bi bi-search",
-    "icon_text": null,
-    "display_text": "DNS Lookup",
-    "nav_jsx": "ToolDnsLookup",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "d2e4f6a8-1b3c-4d5e-9f7a-8b0c1d2e3f4a",
-    "parent_menu_id": "9dcd2f94-b0b8-4f61-9a03-d420e0c52cab",
-    "sort_order": 4,
-    "icon_class": "bi bi-compass",
-    "icon_text": null,
-    "display_text": "SNMP Walk",
-    "nav_jsx": "ToolSnmpWalk",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "a8b0c2d4-e6f8-1a2b-3c4d-5e6f7a8b9c0d",
-    "parent_menu_id": "9dcd2f94-b0b8-4f61-9a03-d420e0c52cab",
-    "sort_order": 5,
-    "icon_class": "bi bi-hand-index",
-    "icon_text": null,
-    "display_text": "SNMP Get",
-    "nav_jsx": "ToolSnmpGet",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "f0e1d2c3-b4a5-6c7d-8e9f-0a1b2c3d4e5f",
-    "parent_menu_id": "9dcd2f94-b0b8-4f61-9a03-d420e0c52cab",
-    "sort_order": 6,
-    "icon_class": "bi bi-upc",
-    "icon_text": null,
-    "display_text": "MAC Vendor Lookup",
-    "nav_jsx": "ToolMacLookup",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Administration
-  {
-    "menu_id": "b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e",
-    "parent_menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "sort_order": 1,
-    "icon_class": "bi bi-shield-lock",
-    "icon_text": null,
-    "display_text": "Users & Roles",
-    "nav_jsx": "system/OrganizationManager.jsx",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f",
-    "parent_menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "sort_order": 2,
-    "icon_class": "bi bi-key",
-    "icon_text": null,
-    "display_text": "Credentials (SNMP/SSH)",
-    "nav_jsx": "AdminCredentials",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "d1e2f3a4-b5c6-7d8e-9f0a-1b2c3d4e5f6a",
-    "parent_menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "sort_order": 3,
-    "icon_class": "bi bi-envelope",
-    "icon_text": null,
-    "display_text": "Notification Channels",
-    "nav_jsx": "AdminNotifications",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
-    "parent_menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "sort_order": 4,
-    "icon_class": "bi bi-plug",
-    "icon_text": null,
-    "display_text": "Integrations",
-    "nav_jsx": "AdminIntegrations",
-    "nav_jsx_parameters": { "syslog": true, "snmp": true, "dhcp": true, "dns": true },
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "f1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
-    "parent_menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "sort_order": 5,
-    "icon_class": "bi bi-clipboard-check",
-    "icon_text": null,
-    "display_text": "Audit Log",
-    "nav_jsx": "AdminAuditLog",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-    "parent_menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "sort_order": 6,
-    "icon_class": "bi bi-gear",
-    "icon_text": null,
-    "display_text": "System Settings",
-    "nav_jsx": "AdminSettings",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
-    "parent_menu_id": "2a6f830e-29ee-4c49-8d88-5e18b8b3be05",
-    "sort_order": 7,
-    "icon_class": "bi bi-database",
-    "icon_text": null,
-    "display_text": "Backup & Restore",
-    "nav_jsx": "AdminBackupRestore",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-
-  // Help & About
-  {
-    "menu_id": "c2d3e4f5-a6b7-8c9d-0e1f-2a3b4c5d6e7f",
-    "parent_menu_id": "8a06a327-701c-47bb-bd7e-0fc01323868e",
-    "sort_order": 1,
-    "icon_class": "bi bi-info-circle",
-    "icon_text": null,
-    "display_text": "About",
-    "nav_jsx": "AboutDialog",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": true,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "d3e4f5a6-b7c8-9d0e-1f2a-3b4c5d6e7f8a",
-    "parent_menu_id": "8a06a327-701c-47bb-bd7e-0fc01323868e",
-    "sort_order": 2,
-    "icon_class": "bi bi-book",
-    "icon_text": null,
-    "display_text": "Documentation",
-    "nav_jsx": "MenuLink",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "https://docs.example-nms.local",
-    "nav_js_code": ""
-  },
-  {
-    "menu_id": "e4f5a6b7-c8d9-0e1f-2a3b-4c5d6e7f8a9b",
-    "parent_menu_id": "8a06a327-701c-47bb-bd7e-0fc01323868e",
-    "sort_order": 3,
-    "icon_class": "bi bi-life-preserver",
-    "icon_text": null,
-    "display_text": "Support",
-    "nav_jsx": "SupportPanel",
-    "nav_jsx_parameters": {},
-    "nav_jsx_asmodal": false,
-    "nav_popup_link": "",
-    "nav_js_code": ""
-  }
-];
+  static seedDataDemo = [];
 };

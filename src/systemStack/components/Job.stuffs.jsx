@@ -1,26 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Calendar, 
-  Play, 
-  Pause, 
-  Square, 
-  Edit, 
-  Trash2, 
-  Plus, 
-  Settings, 
-  Clock, 
-  Server, 
-  CheckCircle, 
-  XCircle, 
-  AlertCircle,
-  RotateCcw,
-  Eye,
-  Save,
-  X,
-  Code,
-  Terminal,
-  Zap
-} from 'lucide-react';
+import { h, render, Fragment } from '/vendor/preact/preact.mjs';
+import { useEffect, useMemo, useRef, useState } from '/vendor/preact/hooks.mjs';
 
 const JobManagementApp = () => {
   const [activeTab, setActiveTab] = useState('templates');
@@ -106,11 +85,11 @@ const JobManagementApp = () => {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'completed': return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case 'running': return <Zap className="w-4 h-4 text-blue-500 animate-pulse" />;
-      case 'failed': return <XCircle className="w-4 h-4 text-red-500" />;
-      case 'paused': return <Pause className="w-4 h-4 text-yellow-500" />;
-      default: return <Clock className="w-4 h-4 text-gray-500" />;
+      case 'completed': return <i className="bi bi-check-circle-fill text-green-500" style={{fontSize: '1rem'}}></i>;
+      case 'running': return <i className="bi bi-lightning-charge-fill text-blue-500 animate-pulse" style={{fontSize: '1rem'}}></i>;
+      case 'failed': return <i className="bi bi-x-circle-fill text-red-500" style={{fontSize: '1rem'}}></i>;
+      case 'paused': return <i className="bi bi-pause-circle-fill text-yellow-500" style={{fontSize: '1rem'}}></i>;
+      default: return <i className="bi bi-clock-fill text-gray-500" style={{fontSize: '1rem'}}></i>;
     }
   };
 
@@ -133,14 +112,14 @@ const JobManagementApp = () => {
                 onClick={() => openModal('template')}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition-colors"
               >
-                <Plus className="w-4 h-4" />
+                <i className="bi bi-plus-lg" style={{fontSize: '1rem'}}></i>
                 <span>New Template</span>
               </button>
               <button
                 onClick={() => openModal('schedule')}
                 className="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-green-700 transition-colors"
               >
-                <Calendar className="w-4 h-4" />
+                <i className="bi bi-calendar-event" style={{fontSize: '1rem'}}></i>
                 <span>New Schedule</span>
               </button>
             </div>
@@ -161,7 +140,7 @@ const JobManagementApp = () => {
               }`}
             >
               <div className="flex items-center space-x-2">
-                <Code className="w-4 h-4" />
+                <i className="bi bi-code-slash" style={{fontSize: '1rem'}}></i>
                 <span>Job Templates ({templates.length})</span>
               </div>
             </button>
@@ -174,7 +153,7 @@ const JobManagementApp = () => {
               }`}
             >
               <div className="flex items-center space-x-2">
-                <Calendar className="w-4 h-4" />
+                <i className="bi bi-calendar-event" style={{fontSize: '1rem'}}></i>
                 <span>Job Schedules ({schedules.length})</span>
               </div>
             </button>
@@ -187,7 +166,7 @@ const JobManagementApp = () => {
               }`}
             >
               <div className="flex items-center space-x-2">
-                <Terminal className="w-4 h-4" />
+                <i className="bi bi-terminal" style={{fontSize: '1rem'}}></i>
                 <span>Executions ({executions.length})</span>
               </div>
             </button>
@@ -266,24 +245,24 @@ const JobManagementApp = () => {
                         className="text-green-600 hover:text-green-700"
                         title="Run Now"
                       >
-                        <Play className="w-4 h-4" />
+                        <i className="bi bi-play-fill" style={{fontSize: '1rem'}}></i>
                       </button>
                       <button 
                         onClick={() => openModal('schedule', { templateId: template.id, templateName: template.name })}
                         className="text-purple-600 hover:text-purple-700"
                         title="Create Schedule"
                       >
-                        <Calendar className="w-4 h-4" />
+                        <i className="bi bi-calendar-event" style={{fontSize: '1rem'}}></i>
                       </button>
                       <button 
                         onClick={() => openModal('template', template)}
                         className="text-blue-600 hover:text-blue-700"
                         title="Edit Template"
                       >
-                        <Edit className="w-4 h-4" />
+                        <i className="bi bi-pencil-square" style={{fontSize: '1rem'}}></i>
                       </button>
                       <button className="text-red-600 hover:text-red-700" title="Delete Template">
-                        <Trash2 className="w-4 h-4" />
+                        <i className="bi bi-trash" style={{fontSize: '1rem'}}></i>
                       </button>
                     </td>
                   </tr>

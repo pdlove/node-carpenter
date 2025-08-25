@@ -37,6 +37,10 @@ export default class CarpenterServer {
     config_json = {};
     sequelize = null;
 
+
+    dbInitFunctions=[];
+    srvInitFunctions=[];
+
     async init(options = {}) {
         this.config_json = configManager.loadConfig();
         // Shallow merge user options into class options
@@ -46,10 +50,10 @@ export default class CarpenterServer {
         this.options.dbConfig.define.underscored = true; // Use snake_case for column names - This is forced to be true for consistency. It CAN be overridden in the model definitions
 
         const systemStack = await import('../systemStack/index.js');
-        this.addStack('system', systemStack.modelList, systemStack.modelSeedOrder, systemStack.routes, systemStack.jobs, systemStack.publicPath, systemStack.componentPath);
+        this.addStack('system', systemStack.modelList, systemStack.modelSeedOrder, systemStack.routes, systemStack.jobs, systemStack.publicPath, systemStack.componentPath, systemStack.dbInitFunction);
     }
 
-    addStack(stackName, modelList, modelSeedOrder, routes, jobs, publicPath, componentPath) {
+    async addStack(stackName, modelList, modelSeedOrder, routes, jobs, publicPath, componentPath, dbInitFunction, srvInitFunction) {
         if (this.options.debugLevel > 0) console.log(`Loading models for stack: ${stackName}`);
         for (const modelName in modelList) {
             if (this.options.debugLevel > 1) console.log(`Adding model: ${modelName}`);
@@ -75,6 +79,9 @@ export default class CarpenterServer {
         if (this.options.debugLevel > 0) console.log(`Loading component path for stack: ${stackName}`);
         //this.addPreactComponent(defaultModels.preactComponents, path.join(this.frontEndPath, "components/"));
         this.addPreactComponentPath(componentPath, stackName); // Set the frontend path to the src/reactFiles directory
+       
+        if (dbInitFunction) this.dbInitFunctions.push(dbInitFunction);
+        if (srvInitFunction) this.srvInitFunctions.push(srvInitFunction);
     }
 
     async DatabaseInitialize() {
@@ -140,6 +147,9 @@ export default class CarpenterServer {
                 console.log(`Seeded demo data for models: ${seededModels.join(', ')}`);
             }
         }
+
+        for (const myFunc of this.dbInitFunctions)
+            await myFunc(this);
     }
 
     async SeedCoreData(modelList, force = false) {

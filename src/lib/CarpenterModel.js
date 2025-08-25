@@ -32,7 +32,6 @@ export default class CarpenterModel {
     static defaultDeleteAccess = 'admin';
     static defaultAccessFilter = null; // This is a filter that will be applied to all operations. It can be used to limit access to certain data based on the user or other criteria.
 
-
     static sequelizeDefinition = {};
     static sequelizeConnections = [];
     static sequelizeRelationships = null;
