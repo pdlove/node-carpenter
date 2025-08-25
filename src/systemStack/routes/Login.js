@@ -130,7 +130,7 @@ export default class Login extends CarpenterRoute {
         if (req.session.error || req.session.user_id==='00000000-0000-0000-0000-000000000000') //If the ticket was rejected or resolved to a public user.
             res.status(403).send(req.session.error);
         else
-            res.status(200).json({ mesage: "Good" });
+            res.status(200).json({ message: "Good" });
     }
 
     static async processLogout(req, res) {
@@ -138,6 +138,7 @@ export default class Login extends CarpenterRoute {
         //Flag session as closed
         //Delete the cookie
         //Return Logged Out
+        res.clearCookie('token');
         if (req.session.error || req.session.user_id==='00000000-0000-0000-0000-000000000000') //If the ticket was rejected or resolved to a public user.
             res.status(200).json({ mesage: "Logged Out" });
         res.status(200).json({ mesage: "Logged Out" });

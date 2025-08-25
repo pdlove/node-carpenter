@@ -1,9 +1,13 @@
 import { h, render, Fragment } from '/vendor/preact/preact.mjs';
 import { useEffect, useMemo, useRef, useState } from '/vendor/preact/hooks.mjs';
 
+async function http(url, options) {
+    const res = await fetch(url);
+    const json = await res.json();
+    return json;
+}
 
-
-export default function OrganizationManager({ http }) {
+export default function OrganizationManager() {
     const [organizations, setOrganizations] = useState([])
     const [selectedOrgId, setSelectedOrgId] = useState(null)
     const [orgModal, setOrgModal] = useState(null)
@@ -11,7 +15,7 @@ export default function OrganizationManager({ http }) {
 
     useEffect(() => {
         ; (async () => {
-            const list = await http('/api/data/organization')
+            const list = await http('/api/data/organization');
             setOrganizations(list)
             if (list.length && !selectedOrgId) setSelectedOrgId(list[0].organization_id)
         })().catch(console.error)

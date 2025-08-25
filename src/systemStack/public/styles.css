@@ -1,4 +1,3 @@
-:root{--bg:#0b0f14;--panel:#121821;--muted:#6b7a90;--text:#e7ecf3;--accent:#3ca0ff;--accent-2:#23d18b;--danger:#ff4d4f;--warn:#ffcc00;--border:#1f2a3a;--shadow:rgba(0,0,0,.35)}
 *{box-sizing:border-box}
 html,body,#app{height:100%}
 body{margin:0;background:linear-gradient(180deg,#0b0f14,#0e1420 40%,#0b0f14);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji"}

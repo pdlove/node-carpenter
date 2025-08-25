@@ -183,7 +183,7 @@ export default function NetworkMenu({
         {/* Flyout when collapsed */}
         {showFlyout && (
           <div className="nm-flyout" role="menu" aria-label={item.display_text}>
-            <div class="nm-row">{item.display_text}</div>
+            <div class="nm-row" style="font-weight: 700;">{item.display_text}</div>
             <ul className="nm-flyout-list">
               {children.map((child) => {
                 const childHasKids = hasChildren(child.menu_id);
