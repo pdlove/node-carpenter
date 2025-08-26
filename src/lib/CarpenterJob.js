@@ -1,3 +1,5 @@
+import { Op, DataTypes } from "sequelize";
+
 export default class CarpenterJob {
     carpenterServer = null; // This will be populated with the carpenterServer object upon execution.
     
