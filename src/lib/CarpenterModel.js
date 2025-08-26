@@ -41,8 +41,8 @@ export default class CarpenterModel {
     static primaryKey = null;
 
     static carpenter = null;
-    static seedDataCore=[];
-    static seedDataDemo=[];
+    static seedDataCore = [];
+    static seedDataDemo = [];
     constructor() {
         for (const fieldName in this.constructor.sequelizeDefinition) {
             console.log(fieldName);
@@ -52,23 +52,61 @@ export default class CarpenterModel {
     static sequelizeDefine(sequelize, DataTypes) {
         let tableOptions = {};
         if (this.sqlSchemaName) tableOptions.schema = this.sqlSchemaName;
-        tableOptions.tableName = (this.tableName || pluralize(this.name));
-        //Convert the tableName from PascalCase to snake_case for db compatablitiy.
-        tableOptions.tableName = tableOptions.tableName.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-        if (this.sqlCustomTimestamps) tableOptions.timestamps = false;
-        const myKey = Object.values(this.sequelizeDefinition).find((field) => field.primaryKey);
-        if (myKey) {
-            if (!myKey.defaultValue && (myKey.type == DataTypes.UUIDV4||myKey.type == DataTypes.UUID)) {
-                myKey.defaultValue = DataTypes.UUIDV4;
+
+        //Manually handle the tablename.
+        if (!this.tableName) {
+            //Table names are generally plural
+            tableOptions.tableName = pluralize(this.name);
+            //Snake Case on tablename to make it easier in Postgresql or other case-sensitive databases.
+            tableOptions.tableName = tableOptions.tableName.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
+        } else {
+            tableOptions.tableName = this.tableName;
+        }
+
+
+        for (const fieldName in this.sequelizeDefinition) {
+            const field = this.sequelizeDefinition[fieldName];
+            //String with compression: true
+            //UUIDv4 remap
+            if (field.type === DataTypes.UUIDV4) field.type = DataTypes.UUID;
+            //Primary keys that are a UUID should be assigned to UUIDV4
+            if (field.type === DataTypes.UUID && field.primaryKey & !field.defaultValue) field.defaultValue = DataTypes.UUIDV4;
+            if (sequelize.dialect.name !== 'postgres') {
+                //JSON Datatype
+                if (field.type === DataTypes.JSON) {
+                    field.type = DataTypes.TEXT;
+                    field.get = function() {
+                        const raw = this.getDataValue(fieldName);
+                        if (raw == null) return null;
+                        try { return JSON.parse(raw); } catch { return raw; } // tolerate legacy rows
+                    };
+                    field.set = function(val) {
+                        // allow setting objects/arrays directly
+                        this.setDataValue(fieldName, val == null ? null : JSON.stringify(val));
+                    }
+                }
+                //CIDR
+                //INET
+                //MACADDR
+                //MACADDR8
+            }
+            if (field) {
+                if (!field.defaultValue && (field.type == DataTypes.UUIDV4 || field.type == DataTypes.UUID)) {
+                    field.defaultValue = DataTypes.UUIDV4;
+                }
             }
         }
+
+        if (this.sqlCustomTimestamps) tableOptions.timestamps = false;
+        const myKey = Object.values(this.sequelizeDefinition).find((field) => field.primaryKey);
+
         this.sequelizeObject = sequelize.define(this.name, this.sequelizeDefinition, tableOptions);
         if (this.sequelizeObject)
             this.primaryKey = Object.keys(this.sequelizeObject.rawAttributes).find((key) => this.sequelizeObject.rawAttributes[key].primaryKey);
         return this.sequelizeObject;
     }
 
-    static async browseObjects({ filter, sortOrder, pageSize, pageNum, relationships, attributes, nest=false, raw=false }) {        
+    static async browseObjects({ filter, sortOrder, pageSize, pageNum, relationships, attributes, nest = false, raw = false }) {
         if (this.filterRequired && !filter) throw new Error("Filter is required");
 
         //If filter is a string, determine if it contains a JSON object and parse if so.
@@ -109,8 +147,8 @@ export default class CarpenterModel {
                 //loop through the subobects to find them in this.carpenterServer.models
                 for (const relationName of relationships) {
                     const relationship = this.sequelizeObject.associations[relationName];
-                    if (!relationship) throw new Error ("Relationship Not Found! Accessing model "+this.name+" with relationship "+relationName);
-                    relationshipsToFetch[relationName]={model: relationship.toTarget}
+                    if (!relationship) throw new Error("Relationship Not Found! Accessing model " + this.name + " with relationship " + relationName);
+                    relationshipsToFetch[relationName] = { model: relationship.toTarget }
                     if (submodel) {
                         relationshipsToFetch[relationName] = { model: submodel.sequelizeObject };
                     }
@@ -231,7 +269,7 @@ export default class CarpenterModel {
         const id = data[this.primaryKey];
         if (!id)
             return this.addObject(data);
-        else 
+        else
             return this.editObject(data);
     }
 
@@ -253,7 +291,7 @@ export default class CarpenterModel {
     static apiRoutes() {
         return [ //Authentication is actually handled in the route functions here
             { path: ('/api/data/' + this.name.toLowerCase() + '/'), method: "GET", function: this.defaultGetRoute.bind(this), authenticationRequired: false },
-            { path: ('/api/data/' + this.name.toLowerCase() + '/:id/:relationship'), method: "GET", function: this.defaultGetRoute.bind(this), authenticationRequired: false }, 
+            { path: ('/api/data/' + this.name.toLowerCase() + '/:id/:relationship'), method: "GET", function: this.defaultGetRoute.bind(this), authenticationRequired: false },
             { path: ('/api/data/' + this.name.toLowerCase() + '/:id'), method: "PUT", function: this.defaultPutRoute.bind(this), authenticationRequired: false },
             { path: ('/api/data/' + this.name.toLowerCase() + '/'), method: "POST", function: this.defaultPostRoute.bind(this), authenticationRequired: false },
             { path: ('/api/data/' + this.name.toLowerCase() + '/:id'), method: "DELETE", function: this.defaultDeleteRoute.bind(this), authenticationRequired: false },
@@ -270,9 +308,9 @@ export default class CarpenterModel {
             const filter = req.query.filter;
             if (filter) filter = JSON.parse(filter);
             const sortOrder = req.query.sortOrder;
-            const id = req.params.id;            
+            const id = req.params.id;
             const relationship = req.params.relationship
-            if (id=='relationships') {
+            if (id == 'relationships') {
                 res.json(Object.keys(this.sequelizeRelationships));
                 return;
             }
@@ -283,15 +321,15 @@ export default class CarpenterModel {
                     return;
                 }
                 const relObject = this.sequelizeRelationships[relationship];
-                if (relObject.parentModelName==this.name) {
+                if (relObject.parentModelName == this.name) {
                     data = await data[relObject.parentGet]();
                 }
-                if (relObject.childModelName==this.name) {
+                if (relObject.childModelName == this.name) {
                     data = await data[relObject.childGet]();
                 }
                 res.json(data);
                 return;
-                
+
             } else {
                 const data = await this.browseObjects({ filter, sortOrder, pageSize, pageNum });
                 res.json(data);
@@ -303,7 +341,7 @@ export default class CarpenterModel {
 
     static async defaultPostRoute(req, res) {
         try {
-        if (!req.session.inGroup(this.defaultCreateAccess)) throw new Error("No permission.")
+            if (!req.session.inGroup(this.defaultCreateAccess)) throw new Error("No permission.")
             const data = await this.addObject(req.body);
             res.json(data);
         } catch (err) {
@@ -313,8 +351,8 @@ export default class CarpenterModel {
 
     static async defaultPutRoute(req, res) {
         try {
-            
-        if (!req.session.inGroup(this.defaultEditAccess)) throw new Error("No permission.")
+
+            if (!req.session.inGroup(this.defaultEditAccess)) throw new Error("No permission.")
             const data = await this.editObject(req.body);
             res.json(data);
         } catch (err) {
@@ -324,7 +362,7 @@ export default class CarpenterModel {
 
     static async defaultDeleteRoute(req, res) {
         try {
-        if (!req.session.inGroup(this.defaultDeleteAccess)) throw new Error("No permission.")
+            if (!req.session.inGroup(this.defaultDeleteAccess)) throw new Error("No permission.")
             const data = await this.deleteObject(req.params.id);
             res.json(data);
         } catch (err) {
