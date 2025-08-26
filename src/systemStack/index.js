@@ -7,7 +7,7 @@ export const publicPath= path.join(import.meta.dirname,'public');
 export const componentPath = path.join(import.meta.dirname,'components');
 export async function dbInitFunction(carpenterServer){
     const modelMenuItem = carpenterServer.models.MenuItem;
-    await modelMenuItem.ensureMenuPath('Dashboard', { icon_class: 'bi bi-speedometer2', nav_jsx: 'DashboardPanel', nav_jsx_parameters: {}, nav_jsx_asmodel: false });
+    await modelMenuItem.ensureMenuPath('Dashboard', { icon_class: 'bi bi-speedometer2', nav_jsx: 'system/DashboardPanel.jsx', nav_jsx_parameters: {}, nav_jsx_asmodel: false });
 //    await modelMenuItem.ensureMenuPath('Devices & Topology', { icon_class: 'bi bi-diagram-3' });
 //    await modelMenuItem.ensureMenuPath('Devices & Topology\\All Devices', { icon_class: 'bi bi-pc', nav_jsx: 'DeviceList', nav_jsx_parameters: {"filter":"all"}, nav_jsx_asmodel: false } );
 //    await modelMenuItem.ensureMenuPath('Devices & Topology\\Device Groups', { icon_class: 'bi bi-layers', nav_jsx: 'DeviceGroups', nav_jsx_parameters: {}, nav_jsx_asmodel: false } );
@@ -55,7 +55,7 @@ export async function dbInitFunction(carpenterServer){
 //    await modelMenuItem.ensureMenuPath('Administration\\Credentials (SNMP/SSH)', { icon_class: 'bi bi-key', icon_text: null, nav_jsx: 'AdminCredentials', nav_jsx_parameters: {}, nav_jsx_asmodal: false, nav_popup_link: '', nav_js_code: '' });
 //    await modelMenuItem.ensureMenuPath('Administration\\Notification Channels', { icon_class: 'bi bi-envelope', icon_text: null, nav_jsx: 'AdminNotifications', nav_jsx_parameters: {}, nav_jsx_asmodal: false, nav_popup_link: '', nav_js_code: '' });
 //    await modelMenuItem.ensureMenuPath('Administration\\Integrations', { icon_class: 'bi bi-plug', icon_text: null, nav_jsx: 'AdminIntegrations', nav_jsx_parameters: { syslog: true, snmp: true, dhcp: true, dns: true }, nav_jsx_asmodal: false, nav_popup_link: '', nav_js_code: '' });
-    await modelMenuItem.ensureMenuPath('Administration\\Job Manager', { icon_class: 'bi bi-clipboard-check', icon_text: null, nav_jsx: 'system/Job.stuffs.jsx', nav_jsx_parameters: {}, nav_jsx_asmodal: false, nav_popup_link: '', nav_js_code: '' });
+    await modelMenuItem.ensureMenuPath('Administration\\Job Manager', { icon_class: 'bi bi-clipboard-check', icon_text: null, nav_jsx: 'system/jobManagement/page.jsx', nav_jsx_parameters: {}, nav_jsx_asmodal: false, nav_popup_link: '', nav_js_code: '' });
     await modelMenuItem.ensureMenuPath('Administration\\System Settings', { icon_class: 'bi bi-gear', icon_text: null, nav_jsx: 'AdminSettings', nav_jsx_parameters: {}, nav_jsx_asmodal: false, nav_popup_link: '', nav_js_code: '' });
 //    await modelMenuItem.ensureMenuPath('Administration\\Backup & Restore', { icon_class: 'bi bi-database', icon_text: null, nav_jsx: 'AdminBackupRestore', nav_jsx_parameters: {}, nav_jsx_asmodal: false, nav_popup_link: '', nav_js_code: '' });
     

@@ -57,7 +57,7 @@ async function handleLogout() {
 
 export default function AppLayoutLazy() {
     const [collapsed, setCollapsed] = useState(false);
-    const [current, setCurrent] = useState({ panel: "DashboardPanel", params: {} });
+    const [current, setCurrent] = useState({ panel: "system/DashboardPanel", params: {} });
     const [modal, setModal] = useState(null);
 
     // Notifications (sample)
@@ -134,7 +134,7 @@ export default function AppLayoutLazy() {
             else setCurrent({ panel: pending.panel, params: pending.params });
         } else {
             // default to Dashboard
-            setCurrent({ panel: "DashboardPanel", params: {} });
+            setCurrent({ panel: "system/DashboardPanel", params: {} });
         }
     };
 

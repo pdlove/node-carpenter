@@ -18,7 +18,9 @@ export default class Components extends CarpenterRoute {
         const fnameStart = req.url.indexOf("/part") + 6;
         const prefixEnd = req.url.indexOf("/", fnameStart);
         const prefix = req.url.substring(fnameStart, prefixEnd);
-        const fileName = req.url.substring(prefixEnd+1, req.url.length)
+        let fileName = req.url.substring(prefixEnd+1, req.url.length)
+        //if fileName doesn't have an extension, add .jsx
+        if (fileName.indexOf('.')<1) fileName+=".jsx";
         
         
         //Get the prefix from the path.
