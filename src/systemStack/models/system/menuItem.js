@@ -5,8 +5,8 @@ const NIL_UUID = "00000000-0000-0000-0000-000000000000";
 export default class MenuItem extends CarpenterModel {
   static defaultReadAccess = "guest";
   static sequelizeDefinition = {
-    menu_id: { type: DataTypes.UUIDV4, primaryKey: true, allowNull: false },
-    parent_menu_id: { type: DataTypes.UUIDV4, allowNull: false, comment: 'If this is not a root item, this points at the parent' },
+    menu_id: { type: DataTypes.UUID, primaryKey: true, allowNull: false },
+    parent_menu_id: { type: DataTypes.UUID, allowNull: false, comment: 'If this is not a root item, this points at the parent' },
     sort_order: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1, comment: '1-based order within the same parent. Subitems restart at 1.' },
     icon_class: { type: DataTypes.STRING, allowNull: true, comment: 'If using the CSS-based icons it will have a class' },
     icon_text: { type: DataTypes.STRING, allowNull: true, comment: 'If not using CSS-based icons, this is the 1 or 2 letters to display in a circle where the icon goes.' },

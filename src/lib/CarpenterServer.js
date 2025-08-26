@@ -38,8 +38,8 @@ export default class CarpenterServer {
     sequelize = null;
 
 
-    dbInitFunctions=[];
-    srvInitFunctions=[];
+    dbInitFunctions = [];
+    srvInitFunctions = [];
 
     async init(options = {}) {
         this.config_json = configManager.loadConfig();
@@ -79,7 +79,7 @@ export default class CarpenterServer {
         if (this.options.debugLevel > 0) console.log(`Loading component path for stack: ${stackName}`);
         //this.addPreactComponent(defaultModels.preactComponents, path.join(this.frontEndPath, "components/"));
         this.addPreactComponentPath(componentPath, stackName); // Set the frontend path to the src/reactFiles directory
-       
+
         if (dbInitFunction) this.dbInitFunctions.push(dbInitFunction);
         if (srvInitFunction) this.srvInitFunctions.push(srvInitFunction);
     }
@@ -136,7 +136,12 @@ export default class CarpenterServer {
             }
         }
 
-        await this.sequelize.sync({})
+        try {
+            await this.sequelize.sync({})
+        } catch (error) {
+            console.error('Error syncing model:', error);
+            throw error;
+        }
 
         // Seed the core data if needed
         for (const modelSeedGroup of this.modelSeedGroups) {

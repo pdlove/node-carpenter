@@ -3,19 +3,19 @@ import {CarpenterModel, CarpenterModelRelationship, DataTypes } from "../../../i
 export default class Location extends CarpenterModel {
     
     static sequelizeDefinition = {
-        location_id: { type: DataTypes.UUIDV4, primaryKey: true },
-        organization_id: { type: DataTypes.UUIDV4, allowNull: false },
+        location_id: { type: DataTypes.UUID, primaryKey: true },
+        organization_id: { type: DataTypes.UUID, allowNull: false },
         name: { type: DataTypes.STRING, allowNull: false },
         location_type: { type: DataTypes.STRING, allowNull: true }, // e.g., "office", "warehouse", etc.
         description: { type: DataTypes.STRING, allowNull: true },
-        parent_location_id: { type: DataTypes.UUIDV4, allowNull: true }, // For hierarchical locations
-        owner_user_id: { type: DataTypes.UUIDV4, allowNull: false },
+        parent_location_id: { type: DataTypes.UUID, allowNull: true }, // For hierarchical locations
+        owner_user_id: { type: DataTypes.UUID, allowNull: false },
         address: { type: DataTypes.STRING, allowNull: true },
         latitude: { type: DataTypes.FLOAT, allowNull: true },
         longitude: { type: DataTypes.FLOAT, allowNull: true },
-        technical_person: { type: DataTypes.UUIDV4, allowNull: true },
-        billing_contact_person: { type: DataTypes.UUIDV4, allowNull: true },
-        scheduling_contact_person: { type: DataTypes.UUIDV4, allowNull: true },        
+        technical_person: { type: DataTypes.UUID, allowNull: true },
+        billing_contact_person: { type: DataTypes.UUID, allowNull: true },
+        scheduling_contact_person: { type: DataTypes.UUID, allowNull: true },        
     };
 
     static sequelizeConnections = [
