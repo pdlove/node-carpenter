@@ -119,8 +119,8 @@ export default class CarpenterJob {
                 continue;                
             }
             // If the config value isn't set and a default exists, use it
-            if (value.defaultValue !== undefined) {
-                this.config[key] = value.defaultValue;
+            if (value.default !== undefined) {
+                this.config[key] = value.default;
                 continue;
             }
             // If all else fails, set it to null so it isn't undefined
