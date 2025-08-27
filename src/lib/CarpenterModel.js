@@ -75,6 +75,7 @@ export default class CarpenterModel {
                 //JSON Datatype
                 if (field.type === DataTypes.JSON) {
                     field.type = DataTypes.TEXT;
+                    if (field.defaultValue) field.defaultValue = JSON.stringify(field.defaultValue);
                     field.get = function() {
                         const raw = this.getDataValue(fieldName);
                         if (raw == null) return null;
