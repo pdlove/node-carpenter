@@ -91,6 +91,13 @@ export default class CarpenterServer {
 
         //Initialize and test the database Connection.
         try {
+            if (this.options.dbConfig.dialect==='mssql') {
+                // Override timezone formatting for MSSQL
+                Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
+                return this._applyTimezone(date, options).format('YYYY-MM-DD HH:mm:ss.SSS');
+                };
+            }
+
             // Implementation for initializing the database
             this.sequelize = new Sequelize(this.options.dbConfig);
 
