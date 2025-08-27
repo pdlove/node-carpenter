@@ -4,6 +4,9 @@ export { Op, DataTypes } from "sequelize";
 
 export default class CarpenterModel {
     static carpenterServer = null;
+    static description = "None Supplied";
+    static modelVersion = 1;
+    static model_id = 0; //0 is an invalid ID. This is supplied when creating it in the database.
     static preferredDatabase = 'sql';
     static sqlSchemaName = null; // If not set, the default schema will be used.
     static sqlTableName = null; // If not set, the table name will be the modelName pluralized and lowercased.

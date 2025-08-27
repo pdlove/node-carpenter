@@ -1,11 +1,14 @@
 ShortTerm:
-TODO: Menu System
-TODO: Job Class
+TODO: Add table to keep track of models for the purpose of producing a model number and version
+TODO: Add table to keep track of Batch Numbers and status by model/worker. This is part of the next task of the ID project.
+TODO: Implement the ID that identies datatype, worker, batch, etc.
+TODO: Modify seeing policy to use the new ID
+TODO: Add "compressed" option to sequelize defintion.
 TODO: Job Management Screen (Services, Scheduled, Adhoc)
 TODO: Database/file management screen. 
 TODO: Fix Organization Security Management Screen
 TODO: Hide public user/organization from security screens
-
+TODO: 
 
 LongTerm:
 TODO: How do I pack this thing up for distribution
@@ -13,7 +16,7 @@ TODO: Need a dynamic webpack to perform webpack only on screens the user has sec
 TODO: Longterm - Client-side data caching options for offline use
 TODO: Create Unit tests
 TODO: Allow forcing specific database format - For stacks'
-
+TODO: Sync model_id between all carpenter workers. When a new worker joins, it automatically rebuilds the models table.
 
 I’m working on a node.js framework and I want to introduce a job scheduler/manager. 
 It should have a Base class for a job and store the information about the job, scheduling, executions, and logs in a database using sequelize. The base class will be extended by developers to create job templates.
