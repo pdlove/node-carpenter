@@ -91,11 +91,6 @@ export default class CarpenterModel {
                 //MACADDR
                 //MACADDR8
             }
-            if (field) {
-                if (!field.defaultValue && (field.type == DataTypes.UUIDV4 || field.type == DataTypes.UUID)) {
-                    field.defaultValue = DataTypes.UUIDV4;
-                }
-            }
         }
 
         if (this.sqlCustomTimestamps) tableOptions.timestamps = false;
