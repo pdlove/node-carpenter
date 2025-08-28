@@ -46,6 +46,23 @@ export default class CarpenterModel {
     static carpenter = null;
     static seedDataCore = [];
     static seedDataDemo = [];
+
+    //For tracking the next ID value
+    static currentBatchNum = 0;
+    static currentValueNum = 0;
+
+    static newBatch(maxHoursToReuse=24) {
+        const ModelIDTracker = this.carpenterServer
+    }
+    static generateAndConsumeID() {
+        //this.model_id
+        //this.carpenterServer.worker_id
+        //this.currentBatchNum
+    }
+    static decodeID(inID) {
+
+    }
+
     constructor() {
         for (const fieldName in this.constructor.sequelizeDefinition) {
             console.log(fieldName);
