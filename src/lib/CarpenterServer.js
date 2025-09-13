@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { Sequelize, DataTypes, Op } from "sequelize";
 import express from "express";
 
 import cookieParser from "cookie-parser"; // in app setup
@@ -91,6 +91,13 @@ export default class CarpenterServer {
 
         //Initialize and test the database Connection.
         try {
+            if (this.options.dbConfig.dialect==='mssql') {
+                // Override timezone formatting for MSSQL
+                Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
+                return this._applyTimezone(date, options).format('YYYY-MM-DD HH:mm:ss.SSS');
+                };
+            }
+
             // Implementation for initializing the database
             this.sequelize = new Sequelize(this.options.dbConfig);
 
@@ -143,6 +150,29 @@ export default class CarpenterServer {
             throw error;
         }
 
+        // Populate the modelVersion
+        const model = this.models.ModelVersion;        
+        for (const modelName in this.models) {
+            let myModel = await model.sequelizeObject.findAll({ where: { name: { [Op.is]: modelName }}, raw: true });
+            if (myModel.length==0) {
+                myModel = await model.sequelizeObject.create({ 
+                                    name: modelName, 
+                                    description: this.models[modelName].description, 
+                                    version: this.models[modelName].modelVersion,
+                                    available_local: true
+                                })
+                this.models[modelName].model_id = myModel.model_id;
+            } else {
+                myModel=myModel;
+                this.models[modelName].model_id = myModel[0].model_id;
+            }
+            
+            //Now get the current batch number
+            //If there is a batch number then get the number of entries for this batch.
+            //If non-zero, close the batch and open a new one.
+            //If zero then change the open time to current.
+                        
+        }
         // Seed the core data if needed
         for (const modelSeedGroup of this.modelSeedGroups) {
             const seededModels = await this.SeedCoreData(modelSeedGroup, false);

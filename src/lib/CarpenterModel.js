@@ -4,6 +4,9 @@ export { Op, DataTypes } from "sequelize";
 
 export default class CarpenterModel {
     static carpenterServer = null;
+    static description = "None Supplied";
+    static modelVersion = 1;
+    static model_id = 0; //0 is an invalid ID. This is supplied when creating it in the database.
     static preferredDatabase = 'sql';
     static sqlSchemaName = null; // If not set, the default schema will be used.
     static sqlTableName = null; // If not set, the table name will be the modelName pluralized and lowercased.
@@ -43,6 +46,23 @@ export default class CarpenterModel {
     static carpenter = null;
     static seedDataCore = [];
     static seedDataDemo = [];
+
+    //For tracking the next ID value
+    static currentBatchNum = 0;
+    static currentValueNum = 0;
+
+    static newBatch(maxHoursToReuse=24) {
+        const ModelIDTracker = this.carpenterServer
+    }
+    static generateAndConsumeID() {
+        //this.model_id
+        //this.carpenterServer.worker_id
+        //this.currentBatchNum
+    }
+    static decodeID(inID) {
+
+    }
+
     constructor() {
         for (const fieldName in this.constructor.sequelizeDefinition) {
             console.log(fieldName);
@@ -75,6 +95,7 @@ export default class CarpenterModel {
                 //JSON Datatype
                 if (field.type === DataTypes.JSON) {
                     field.type = DataTypes.TEXT;
+                    if (field.defaultValue) field.defaultValue = JSON.stringify(field.defaultValue);
                     field.get = function() {
                         const raw = this.getDataValue(fieldName);
                         if (raw == null) return null;
@@ -89,11 +110,6 @@ export default class CarpenterModel {
                 //INET
                 //MACADDR
                 //MACADDR8
-            }
-            if (field) {
-                if (!field.defaultValue && (field.type == DataTypes.UUIDV4 || field.type == DataTypes.UUID)) {
-                    field.defaultValue = DataTypes.UUIDV4;
-                }
             }
         }
 

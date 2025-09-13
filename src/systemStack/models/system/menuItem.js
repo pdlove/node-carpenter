@@ -11,11 +11,11 @@ export default class MenuItem extends CarpenterModel {
     icon_class: { type: DataTypes.STRING, allowNull: true, comment: 'If using the CSS-based icons it will have a class' },
     icon_text: { type: DataTypes.STRING, allowNull: true, comment: 'If not using CSS-based icons, this is the 1 or 2 letters to display in a circle where the icon goes.' },
     display_text: { type: DataTypes.STRING, allowNull: false, comment: 'Text Displayed to the user when not in a collapsed view' },
-    nav_jsx: { type: DataTypes.STRING, allowNull: true, comment: 'React Panel to Load, if any' },
-    nav_jsx_parameters: { type: DataTypes.JSON, allowNull: true, comment: 'Parameters to pass to a react panel, if any' },
-    nav_jsx_asmodal: { type: DataTypes.BOOLEAN, allowNull: true, comment: 'If loading a react panel, this as TRUE will display a modal instead of loading in the main viewport' },
-    nav_popup_link: { type: DataTypes.STRING, allowNull: true, comment: 'If filled, then this URL is opened in a new tab' },
-    nav_js_code: { type: DataTypes.STRING, allowNull: true, comment: 'If filled, this Javascript is executed on click.' },
+    nav_jsx: { type: DataTypes.STRING, allowNull: true, defaultValue: '', comment: 'React Panel to Load, if any' },
+    nav_jsx_parameters: { type: DataTypes.JSON, allowNull: true, defaultValue: {}, comment: 'Parameters to pass to a react panel, if any' },
+    nav_jsx_asmodal: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: '', comment: 'If loading a react panel, this as TRUE will display a modal instead of loading in the main viewport' },
+    nav_popup_link: { type: DataTypes.STRING, allowNull: true, defaultValue: '', comment: 'If filled, then this URL is opened in a new tab' },
+    nav_js_code: { type: DataTypes.STRING, allowNull: true, defaultValue: '', comment: 'If filled, this Javascript is executed on click.' },
   }
 
   static sequelizeOptions = {

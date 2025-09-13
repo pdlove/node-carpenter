@@ -1,3 +1,4 @@
+import ModelVersion from './system/modelVersion.js';
 import Organization from './physical/Organization.js';
 import Location from './physical/Location.js';
 
@@ -18,6 +19,7 @@ import JobExecution  from './JobSystem/JobExecution.js';
 import JobExecutionLog from './JobSystem/JobExecutionLog.js';
 
 export const modelList = {
+    ModelVersion,
     Organization,
     
     Person,
