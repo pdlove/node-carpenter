@@ -1,0 +1,209 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Turkey & Spinach Breakfast Patties with Steamed Broccoli",
+    "description": "Homemade turkey patties with spinach, served alongside steamed broccoli for a hearty breakfast.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT15M",
+    "totalTime": "PT30M",
+    "recipeIngredient": [
+      "6 oz ground turkey",
+      "1/2 cup spinach, finely chopped",
+      "1 cup broccoli florets",
+      "1 tsp olive oil or ghee",
+      "Pinch salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Mix ground turkey with spinach, salt, and herbs; form patties. Store raw (2–3 days) or freeze." },
+          { "@type": "HowToStep", "text": "Wash and chop broccoli; store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Cook patties in skillet with oil until internal temp 165°F (74°C)." },
+          { "@type": "HowToStep", "text": "Steam broccoli until tender; season lightly." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "350 kcal",
+      "proteinContent": "40 g",
+      "carbohydrateContent": "10 g",
+      "fatContent": "16 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Chicken Salad with Arugula & Lemon Olive Oil",
+    "description": "Simple salad of grilled chicken breast, peppery arugula, and a lemony olive oil dressing.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT15M",
+    "totalTime": "PT25M",
+    "recipeIngredient": [
+      "6 oz chicken breast",
+      "2 cups arugula (or mixed greens)",
+      "1 tbsp olive oil",
+      "1 tsp lemon juice",
+      "Salt and dried herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill several chicken breasts and refrigerate 3–4 days." },
+          { "@type": "HowToStep", "text": "Wash and dry arugula; store airtight." },
+          { "@type": "HowToStep", "text": "Mix lemon juice and olive oil into dressing; refrigerate." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Slice pre-cooked chicken." },
+          { "@type": "HowToStep", "text": "Toss arugula with dressing, season lightly, and top with chicken." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "410 kcal",
+      "proteinContent": "45 g",
+      "carbohydrateContent": "12 g",
+      "fatContent": "20 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake with Blackberries & Chia",
+    "description": "High-protein shake with pea protein, blackberries, chia seeds, and almond milk.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein, smoothie",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "1 cup unsweetened almond milk",
+      "1/2 cup blackberries",
+      "1 tsp chia seeds"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Portion blackberries and chia into containers or bags for quick blending." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend pea protein, almond milk, blackberries, and chia until smooth." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "230 kcal",
+      "proteinContent": "30 g",
+      "carbohydrateContent": "13 g",
+      "fatContent": "6 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Lamb Chops with Roasted Zucchini & Cauliflower Mash",
+    "description": "Tender lamb chops grilled and served with roasted zucchini and creamy cauliflower mash.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT20M",
+    "cookTime": "PT25M",
+    "totalTime": "PT45M",
+    "recipeIngredient": [
+      "6 oz lamb chops",
+      "1 cup zucchini, sliced",
+      "1 cup cauliflower mash (prepared ahead)",
+      "1 tbsp olive oil",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Roast zucchini with olive oil, salt, and herbs at 425°F (220°C) for 15 min; refrigerate." },
+          { "@type": "HowToStep", "text": "Steam cauliflower; mash with ghee and salt; refrigerate." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill lamb chops 3–4 min per side (or to desired doneness)." },
+          { "@type": "HowToStep", "text": "Reheat roasted zucchini and cauliflower mash." },
+          { "@type": "HowToStep", "text": "Serve together." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "600 kcal",
+      "proteinContent": "44 g",
+      "carbohydrateContent": "20 g",
+      "fatContent": "32 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  }
+]

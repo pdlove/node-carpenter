@@ -1,6 +1,8 @@
 import { h, render, Fragment } from "/vendor/preact/preact.mjs";
 import { useEffect, useMemo, useRef, useState } from "/vendor/preact/hooks.mjs";
 
+import { apiCall } from "/userStore.js";
+
 export default function TemplateScreen({ templates }) {
   return (
     <div className="bg-white shadow-md rounded-lg overflow-scroll">

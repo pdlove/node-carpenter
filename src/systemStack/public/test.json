@@ -1,0 +1,1468 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Turkey Sausage & Spinach Scramble with Cauliflower Rice",
+    "description": "Turkey sausage, spinach, and cauliflower rice scramble. AIP-leaning and diabetic-friendly.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT10M",
+    "totalTime": "PT20M",
+    "recipeIngredient": [
+      "4 oz turkey sausage (no fillers, sugar-free)",
+      "1 cup spinach, chopped",
+      "1 cup cauliflower rice",
+      "1 tsp olive oil or ghee",
+      "1/4 tsp garlic powder",
+      "Salt and herbs to taste"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Cook turkey sausage fully, crumble, and chill up to 4 days." },
+          { "@type": "HowToStep", "text": "Steam or sauté cauliflower rice until just tender; chill." },
+          { "@type": "HowToStep", "text": "Wash and chop spinach; store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Heat oil/ghee in a skillet." },
+          { "@type": "HowToStep", "text": "Add cauliflower rice and sausage; cook 2–3 minutes." },
+          { "@type": "HowToStep", "text": "Stir in spinach until wilted. Season and serve hot." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "310 kcal",
+      "proteinContent": "36 g",
+      "carbohydrateContent": "12 g",
+      "fatContent": "14 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Chicken Salad with Cucumber & Olive Oil Vinaigrette",
+    "description": "Lean grilled chicken over mixed greens with cucumber and olive oil–ACV dressing.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT15M",
+    "totalTime": "PT25M",
+    "recipeIngredient": [
+      "6 oz chicken breast",
+      "2 cups mixed greens",
+      "1/2 cucumber, sliced",
+      "1 tbsp olive oil",
+      "1 tsp apple cider vinegar",
+      "Salt, pepper, herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill multiple chicken breasts; chill 3–4 days." },
+          { "@type": "HowToStep", "text": "Wash and dry greens; slice cucumbers." },
+          { "@type": "HowToStep", "text": "Mix dressing (olive oil + vinegar); store bottled." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Slice 6 oz pre-cooked chicken." },
+          { "@type": "HowToStep", "text": "Plate greens and cucumber; top with chicken." },
+          { "@type": "HowToStep", "text": "Drizzle dressing; season and serve." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "400 kcal",
+      "proteinContent": "45 g",
+      "carbohydrateContent": "14 g",
+      "fatContent": "18 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake (Blueberry Chia)",
+    "description": "Pea protein shake with almond milk, blueberries, and chia seeds.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "1 cup unsweetened almond milk",
+      "1/2 cup blueberries",
+      "1 tsp chia seeds"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Pre-portion blueberries + chia into small containers or bags." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend pea protein, almond milk, and pre-portioned pack until smooth." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "220 kcal",
+      "proteinContent": "30 g",
+      "carbohydrateContent": "12 g",
+      "fatContent": "5 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Salmon with Roasted Broccoli & Cauliflower Mash",
+    "description": "Baked salmon with roasted broccoli and buttery cauliflower mash.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT20M",
+    "totalTime": "PT35M",
+    "recipeIngredient": [
+      "6 oz salmon fillet",
+      "1 cup broccoli florets",
+      "1 cup cauliflower florets",
+      "1 tbsp olive oil",
+      "1 tsp ghee",
+      "1/4 tsp garlic powder",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Roast broccoli with olive oil, garlic, salt; chill." },
+          { "@type": "HowToStep", "text": "Steam cauliflower; mash with ghee and salt; chill." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Pan-sear or bake salmon until cooked through." },
+          { "@type": "HowToStep", "text": "Reheat broccoli and cauliflower mash; plate with salmon." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "580 kcal",
+      "proteinContent": "42 g",
+      "carbohydrateContent": "18 g",
+      "fatContent": "32 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Smoked Salmon Cucumber Boats",
+    "description": "Cucumber halves filled with dairy-free cream cheese and smoked salmon. Light, refreshing, and protein-rich breakfast.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT0M",
+    "totalTime": "PT10M",
+    "recipeIngredient": [
+      "1 cucumber (halved lengthwise, seeds scooped)",
+      "2 oz smoked salmon",
+      "2 tbsp dairy-free cream cheese",
+      "1 tsp fresh dill or parsley (optional)"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Slice cucumbers lengthwise; scoop seeds to make boats. Store covered." },
+          { "@type": "HowToStep", "text": "Portion smoked salmon into 2 oz servings." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Spread cream cheese into cucumber halves." },
+          { "@type": "HowToStep", "text": "Top with smoked salmon and herbs." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "280 kcal",
+      "proteinContent": "32 g",
+      "carbohydrateContent": "10 g",
+      "fatContent": "12 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Turkey Burger Patties with Sautéed Zucchini",
+    "description": "Lean turkey patties served with garlic-sautéed zucchini. AIP-leaning and filling lunch.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT15M",
+    "totalTime": "PT30M",
+    "recipeIngredient": [
+      "6 oz ground turkey",
+      "1 tsp olive oil or ghee",
+      "1 cup zucchini, sliced",
+      "1/4 tsp garlic powder",
+      "Salt and herbs to taste"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Form turkey patties (season lightly with salt/herbs). Store in fridge 3 days or freeze." },
+          { "@type": "HowToStep", "text": "Slice zucchini and store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Pan-sear turkey patties in oil until fully cooked (internal 165°F / 74°C)." },
+          { "@type": "HowToStep", "text": "Sauté zucchini with garlic and oil until tender." },
+          { "@type": "HowToStep", "text": "Serve patties alongside zucchini." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "430 kcal",
+      "proteinContent": "46 g",
+      "carbohydrateContent": "9 g",
+      "fatContent": "24 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake with Spinach & Strawberries",
+    "description": "A green protein smoothie using pea protein, spinach, and strawberries.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein, smoothie",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "1 cup unsweetened almond milk",
+      "1 cup spinach",
+      "1/2 cup strawberries, hulled",
+      "Ice (optional)"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Wash and portion strawberries + spinach into containers/bags." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend almond milk, pea protein, spinach, and strawberries until smooth." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "240 kcal",
+      "proteinContent": "32 g",
+      "carbohydrateContent": "14 g",
+      "fatContent": "5 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Baked Cod with Lemon Asparagus & Cauliflower Mash",
+    "description": "Oven-baked cod served with lemon asparagus and creamy cauliflower mash.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT20M",
+    "totalTime": "PT35M",
+    "recipeIngredient": [
+      "6 oz cod fillet",
+      "1 cup asparagus, trimmed",
+      "1 tsp olive oil",
+      "1 cup cauliflower mash (prepped ahead)",
+      "1/2 lemon, juiced",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Steam and mash cauliflower with ghee; store." },
+          { "@type": "HowToStep", "text": "Trim asparagus and store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Bake cod at 400°F (205°C) for 12–15 min until flaky." },
+          { "@type": "HowToStep", "text": "Roast or sauté asparagus with olive oil; finish with lemon juice." },
+          { "@type": "HowToStep", "text": "Reheat cauliflower mash; serve with cod and asparagus." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "560 kcal",
+      "proteinContent": "42 g",
+      "carbohydrateContent": "20 g",
+      "fatContent": "25 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Turkey Bacon & Sautéed Kale with Avocado",
+    "description": "Crispy turkey bacon served with garlicky sautéed kale and fresh avocado slices. High-protein AIP-friendly breakfast.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT15M",
+    "totalTime": "PT25M",
+    "recipeIngredient": [
+      "3 slices turkey bacon",
+      "1 cup kale, chopped",
+      "1/2 avocado, sliced",
+      "1 tsp olive oil or ghee",
+      "1/4 tsp garlic powder",
+      "Salt to taste"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Wash, chop, and store kale in airtight container." },
+          { "@type": "HowToStep", "text": "Slice avocados only day-of (to prevent browning)." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Cook turkey bacon until crisp." },
+          { "@type": "HowToStep", "text": "Sauté kale in olive oil with garlic powder until wilted." },
+          { "@type": "HowToStep", "text": "Serve with fresh avocado slices." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "320 kcal",
+      "proteinContent": "28 g",
+      "carbohydrateContent": "9 g",
+      "fatContent": "18 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Chicken with Green Beans & Garlic Olive Oil",
+    "description": "Simple grilled chicken breast paired with green beans sautéed in garlic olive oil.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT20M",
+    "totalTime": "PT30M",
+    "recipeIngredient": [
+      "6 oz chicken breast",
+      "1 cup green beans, trimmed",
+      "1 tsp olive oil",
+      "1/4 tsp garlic powder",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill multiple chicken breasts and refrigerate up to 4 days." },
+          { "@type": "HowToStep", "text": "Wash and trim green beans." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Reheat or grill chicken breast until hot." },
+          { "@type": "HowToStep", "text": "Sauté green beans in olive oil with garlic powder until tender-crisp." },
+          { "@type": "HowToStep", "text": "Serve chicken with green beans." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "420 kcal",
+      "proteinContent": "45 g",
+      "carbohydrateContent": "14 g",
+      "fatContent": "22 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake with Cocoa & Almond Butter",
+    "description": "Protein-packed smoothie with pea protein, cocoa powder, and almond butter for richness.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein, smoothie",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "1 cup unsweetened almond milk",
+      "1 tbsp almond butter",
+      "1 tsp unsweetened cocoa powder",
+      "Ice (optional)"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Measure out cocoa and almond butter portions into containers for quick use." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend almond milk, protein powder, almond butter, and cocoa until smooth." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "260 kcal",
+      "proteinContent": "30 g",
+      "carbohydrateContent": "10 g",
+      "fatContent": "8 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pork Tenderloin with Roasted Brussels Sprouts & Cauliflower Rice Pilaf",
+    "description": "Oven-roasted pork tenderloin paired with roasted Brussels sprouts and cauliflower rice pilaf.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT20M",
+    "cookTime": "PT25M",
+    "totalTime": "PT45M",
+    "recipeIngredient": [
+      "6 oz pork tenderloin",
+      "1 cup Brussels sprouts, halved",
+      "1 cup cauliflower rice",
+      "1 tbsp olive oil",
+      "Salt, garlic powder, herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Roast Brussels sprouts with olive oil, garlic powder, and salt; refrigerate." },
+          { "@type": "HowToStep", "text": "Steam cauliflower rice, season, and store." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Roast or pan-sear pork tenderloin until internal temp reaches 145°F (63°C)." },
+          { "@type": "HowToStep", "text": "Reheat Brussels sprouts and cauliflower pilaf." },
+          { "@type": "HowToStep", "text": "Serve together with pork slices." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "600 kcal",
+      "proteinContent": "42 g",
+      "carbohydrateContent": "19 g",
+      "fatContent": "32 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Chicken Sausage with Sautéed Cabbage & Apple Slices",
+    "description": "AIP-leaning breakfast of clean chicken sausage, tender cabbage, and crisp apple.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT12M",
+    "totalTime": "PT22M",
+    "recipeIngredient": [
+      "4 oz chicken sausage (no sugar, no fillers)",
+      "1 cup green cabbage, thinly sliced",
+      "1 tsp olive oil or ghee",
+      "1/2 medium apple, sliced",
+      "Pinch salt and dried herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Slice cabbage; store airtight up to 4 days." },
+          { "@type": "HowToStep", "text": "Cook chicken sausage fully; chill up to 4 days." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Sauté cabbage in oil/ghee over medium heat 4–6 min until tender; season." },
+          { "@type": "HowToStep", "text": "Reheat cooked sausage in the pan until hot." },
+          { "@type": "HowToStep", "text": "Serve with fresh apple slices." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "340 kcal",
+      "proteinContent": "32 g",
+      "carbohydrateContent": "14 g",
+      "fatContent": "16 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Tuna Steak with Cucumber Salad",
+    "description": "Seared tuna steak served with a simple cucumber salad and olive oil dressing.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT8M",
+    "totalTime": "PT18M",
+    "recipeIngredient": [
+      "6 oz tuna steak",
+      "1/2 large cucumber, thinly sliced",
+      "1 tbsp extra-virgin olive oil (divided)",
+      "1 tsp apple cider vinegar",
+      "Pinch salt and dried herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Slice cucumbers; store airtight 2–3 days." },
+          { "@type": "HowToStep", "text": "Mix dressing: 2 tsp olive oil + 1 tsp ACV + pinch salt/herbs; bottle." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Heat grill or skillet; rub tuna with 1 tsp olive oil and salt." },
+          { "@type": "HowToStep", "text": "Sear tuna 2–3 min per side (or to preferred doneness)." },
+          { "@type": "HowToStep", "text": "Toss cucumber with remaining oil and ACV dressing; serve with tuna." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "450 kcal",
+      "proteinContent": "46 g",
+      "carbohydrateContent": "12 g",
+      "fatContent": "24 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake with Raspberries & Coconut Milk",
+    "description": "Creamy pea protein smoothie using raspberries and light coconut milk.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein, smoothie",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "3/4 cup light coconut milk (carton or diluted canned)",
+      "1/2 cup raspberries (fresh or frozen)",
+      "Ice (optional)"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Portion raspberries into small containers; freeze or refrigerate." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend pea protein, coconut milk, raspberries, and ice (optional) until smooth." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "230 kcal",
+      "proteinContent": "30 g",
+      "carbohydrateContent": "13 g",
+      "fatContent": "6 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Roast Beef with Roasted Carrots & Cauliflower Mash",
+    "description": "Sliced roast beef served with oven-roasted carrots and creamy cauliflower mash.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT25M",
+    "totalTime": "PT40M",
+    "recipeIngredient": [
+      "6 oz roast beef (leftover roast or deli-style, no sugar/gluten)",
+      "1 cup carrots, cut into batons",
+      "1 cup cauliflower florets",
+      "1 tbsp olive oil (divided)",
+      "1 tsp ghee",
+      "Pinch salt and garlic powder"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Roast carrots at 425°F (220°C) with 2 tsp olive oil, salt, and garlic; chill." },
+          { "@type": "HowToStep", "text": "Steam cauliflower; mash with ghee and pinch salt; chill." },
+          { "@type": "HowToStep", "text": "Slice roast beef and portion (if using a whole roast cooked on Sunday)." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Reheat carrots and cauliflower mash." },
+          { "@type": "HowToStep", "text": "Warm roast beef gently in a skillet with 1 tsp olive oil or in broth; serve with sides." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "580 kcal",
+      "proteinContent": "42 g",
+      "carbohydrateContent": "18 g",
+      "fatContent": "28 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Turkey & Spinach Breakfast Patties with Steamed Broccoli",
+    "description": "Homemade turkey patties with spinach, served alongside steamed broccoli for a hearty breakfast.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT15M",
+    "totalTime": "PT30M",
+    "recipeIngredient": [
+      "6 oz ground turkey",
+      "1/2 cup spinach, finely chopped",
+      "1 cup broccoli florets",
+      "1 tsp olive oil or ghee",
+      "Pinch salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Mix ground turkey with spinach, salt, and herbs; form patties. Store raw (2–3 days) or freeze." },
+          { "@type": "HowToStep", "text": "Wash and chop broccoli; store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Cook patties in skillet with oil until internal temp 165°F (74°C)." },
+          { "@type": "HowToStep", "text": "Steam broccoli until tender; season lightly." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "350 kcal",
+      "proteinContent": "40 g",
+      "carbohydrateContent": "10 g",
+      "fatContent": "16 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Chicken Salad with Arugula & Lemon Olive Oil",
+    "description": "Simple salad of grilled chicken breast, peppery arugula, and a lemony olive oil dressing.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT15M",
+    "totalTime": "PT25M",
+    "recipeIngredient": [
+      "6 oz chicken breast",
+      "2 cups arugula (or mixed greens)",
+      "1 tbsp olive oil",
+      "1 tsp lemon juice",
+      "Salt and dried herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill several chicken breasts and refrigerate 3–4 days." },
+          { "@type": "HowToStep", "text": "Wash and dry arugula; store airtight." },
+          { "@type": "HowToStep", "text": "Mix lemon juice and olive oil into dressing; refrigerate." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Slice pre-cooked chicken." },
+          { "@type": "HowToStep", "text": "Toss arugula with dressing, season lightly, and top with chicken." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "410 kcal",
+      "proteinContent": "45 g",
+      "carbohydrateContent": "12 g",
+      "fatContent": "20 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake with Blackberries & Chia",
+    "description": "High-protein shake with pea protein, blackberries, chia seeds, and almond milk.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein, smoothie",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "1 cup unsweetened almond milk",
+      "1/2 cup blackberries",
+      "1 tsp chia seeds"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Portion blackberries and chia into containers or bags for quick blending." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend pea protein, almond milk, blackberries, and chia until smooth." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "230 kcal",
+      "proteinContent": "30 g",
+      "carbohydrateContent": "13 g",
+      "fatContent": "6 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Lamb Chops with Roasted Zucchini & Cauliflower Mash",
+    "description": "Tender lamb chops grilled and served with roasted zucchini and creamy cauliflower mash.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT20M",
+    "cookTime": "PT25M",
+    "totalTime": "PT45M",
+    "recipeIngredient": [
+      "6 oz lamb chops",
+      "1 cup zucchini, sliced",
+      "1 cup cauliflower mash (prepared ahead)",
+      "1 tbsp olive oil",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Roast zucchini with olive oil, salt, and herbs at 425°F (220°C) for 15 min; refrigerate." },
+          { "@type": "HowToStep", "text": "Steam cauliflower; mash with ghee and salt; refrigerate." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill lamb chops 3–4 min per side (or to desired doneness)." },
+          { "@type": "HowToStep", "text": "Reheat roasted zucchini and cauliflower mash." },
+          { "@type": "HowToStep", "text": "Serve together." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "600 kcal",
+      "proteinContent": "44 g",
+      "carbohydrateContent": "20 g",
+      "fatContent": "32 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Chicken Apple Breakfast Hash",
+    "description": "Ground chicken sautéed with apples and shredded cabbage for a savory-sweet, protein-rich breakfast.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT20M",
+    "totalTime": "PT35M",
+    "recipeIngredient": [
+      "6 oz ground chicken",
+      "1/2 medium apple, diced",
+      "1 cup cabbage, shredded",
+      "1 tsp olive oil or ghee",
+      "Pinch cinnamon and salt"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Dice apples and store in water + lemon juice for up to 2 days." },
+          { "@type": "HowToStep", "text": "Shred cabbage and store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Heat oil/ghee in skillet. Cook ground chicken until browned." },
+          { "@type": "HowToStep", "text": "Add cabbage and apple; sauté until tender. Season with cinnamon and salt." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "360 kcal",
+      "proteinContent": "38 g",
+      "carbohydrateContent": "14 g",
+      "fatContent": "16 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Shrimp Salad with Spinach & Avocado",
+    "description": "Juicy grilled shrimp on a bed of spinach, avocado, and olive oil–lemon dressing.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT10M",
+    "cookTime": "PT8M",
+    "totalTime": "PT18M",
+    "recipeIngredient": [
+      "6 oz shrimp, peeled and deveined",
+      "2 cups baby spinach",
+      "1/2 avocado, sliced",
+      "1 tbsp olive oil",
+      "1 tsp lemon juice",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Wash and dry spinach; store airtight." },
+          { "@type": "HowToStep", "text": "Prepare lemon-olive oil dressing; refrigerate." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill shrimp 2–3 min per side until opaque." },
+          { "@type": "HowToStep", "text": "Slice avocado fresh." },
+          { "@type": "HowToStep", "text": "Assemble spinach, avocado, and shrimp. Drizzle dressing." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "420 kcal",
+      "proteinContent": "44 g",
+      "carbohydrateContent": "12 g",
+      "fatContent": "22 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake with Spinach & Blueberries",
+    "description": "Smoothie with pea protein, spinach, blueberries, and almond milk.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein, smoothie",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "1 cup unsweetened almond milk",
+      "1 cup spinach",
+      "1/2 cup blueberries"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Portion blueberries and spinach into small containers for smoothies." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend pea protein, almond milk, spinach, and blueberries until smooth." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "240 kcal",
+      "proteinContent": "32 g",
+      "carbohydrateContent": "14 g",
+      "fatContent": "6 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Chicken Thighs with Roasted Brussels Sprouts & Garlic Cauliflower Mash",
+    "description": "Juicy grilled chicken thighs served with roasted Brussels sprouts and garlic cauliflower mash.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT20M",
+    "cookTime": "PT25M",
+    "totalTime": "PT45M",
+    "recipeIngredient": [
+      "6 oz chicken thighs",
+      "1 cup Brussels sprouts, halved",
+      "1 cup cauliflower florets",
+      "1 tbsp olive oil",
+      "1 tsp ghee",
+      "1/4 tsp garlic powder",
+      "Salt"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Roast Brussels sprouts with olive oil and salt at 425°F (220°C); refrigerate." },
+          { "@type": "HowToStep", "text": "Steam cauliflower; mash with ghee, garlic powder, and salt; refrigerate." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill chicken thighs until internal temp 165°F (74°C)." },
+          { "@type": "HowToStep", "text": "Reheat Brussels sprouts and cauliflower mash." },
+          { "@type": "HowToStep", "text": "Serve together." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "590 kcal",
+      "proteinContent": "44 g",
+      "carbohydrateContent": "19 g",
+      "fatContent": "28 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Turkey Breakfast Scramble with Kale & Mushrooms",
+    "description": "Ground turkey sautéed with kale and mushrooms for a savory, high-protein breakfast.",
+    "recipeCategory": "Breakfast",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT15M",
+    "totalTime": "PT30M",
+    "recipeIngredient": [
+      "6 oz ground turkey",
+      "1 cup kale, chopped",
+      "1/2 cup mushrooms, sliced",
+      "1 tsp olive oil or ghee",
+      "Salt and garlic powder"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Wash and chop kale; store airtight." },
+          { "@type": "HowToStep", "text": "Slice mushrooms; store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Cook turkey in skillet with oil until browned." },
+          { "@type": "HowToStep", "text": "Add mushrooms and kale; sauté until tender. Season with salt and garlic." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "370 kcal",
+      "proteinContent": "40 g",
+      "carbohydrateContent": "11 g",
+      "fatContent": "18 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Baked Salmon Salad with Mixed Greens & Avocado",
+    "description": "Flaky baked salmon served cold on greens with avocado and olive oil dressing.",
+    "recipeCategory": "Lunch",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT15M",
+    "cookTime": "PT20M",
+    "totalTime": "PT35M",
+    "recipeIngredient": [
+      "6 oz salmon fillet",
+      "2 cups mixed greens",
+      "1/2 avocado, sliced",
+      "1 tbsp olive oil",
+      "1 tsp lemon juice",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Bake salmon at 400°F (205°C) for 12–15 min until flaky; cool and refrigerate." },
+          { "@type": "HowToStep", "text": "Wash and dry greens; store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Slice avocado fresh." },
+          { "@type": "HowToStep", "text": "Assemble greens, salmon, and avocado. Drizzle with olive oil + lemon." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "460 kcal",
+      "proteinContent": "44 g",
+      "carbohydrateContent": "13 g",
+      "fatContent": "24 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Pea Protein Shake with Cocoa & Coconut Milk",
+    "description": "Chocolate-style protein shake made with pea protein, unsweetened cocoa, and coconut milk.",
+    "recipeCategory": "Snack",
+    "recipeCuisine": "Smoothie",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein, smoothie",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT5M",
+    "cookTime": "PT0M",
+    "totalTime": "PT5M",
+    "recipeIngredient": [
+      "1 scoop pea protein powder (~20 g protein)",
+      "3/4 cup light coconut milk",
+      "1 tsp unsweetened cocoa powder",
+      "Ice cubes (optional)"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Pre-portion cocoa powder into small container." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Blend pea protein, coconut milk, and cocoa until smooth." },
+          { "@type": "HowToStep", "text": "Add ice if desired." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "220 kcal",
+      "proteinContent": "30 g",
+      "carbohydrateContent": "9 g",
+      "fatContent": "7 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "Grilled Steak with Garlic Green Beans & Cauliflower Rice",
+    "description": "Juicy grilled steak paired with garlic green beans and cauliflower rice.",
+    "recipeCategory": "Dinner",
+    "recipeCuisine": "AIP-inspired",
+    "keywords": "gluten-free, soy-free, egg-free, lactose-free, AIP, diabetic-friendly, high-protein",
+    "dateCreated": "2025-08-28",
+    "recipeYield": "1 serving",
+    "suitableForDiet": [
+      "https://schema.org/GlutenFreeDiet",
+      "https://schema.org/DiabeticDiet",
+      "https://schema.org/LowLactoseDiet"
+    ],
+    "prepTime": "PT20M",
+    "cookTime": "PT20M",
+    "totalTime": "PT40M",
+    "recipeIngredient": [
+      "6 oz sirloin or flank steak",
+      "1 cup green beans, trimmed",
+      "1 cup cauliflower rice",
+      "1 tbsp olive oil (divided)",
+      "1/4 tsp garlic powder",
+      "Salt and herbs"
+    ],
+    "recipeInstructions": [
+      {
+        "@type": "HowToSection",
+        "name": "Sunday Prep",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Steam cauliflower rice until tender; refrigerate." },
+          { "@type": "HowToStep", "text": "Trim and wash green beans; store airtight." }
+        ]
+      },
+      {
+        "@type": "HowToSection",
+        "name": "Final Assembly (Day-of)",
+        "itemListElement": [
+          { "@type": "HowToStep", "text": "Grill steak to desired doneness; rest before slicing." },
+          { "@type": "HowToStep", "text": "Sauté green beans in olive oil with garlic until tender." },
+          { "@type": "HowToStep", "text": "Reheat cauliflower rice; serve with steak and beans." }
+        ]
+      }
+    ],
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": "610 kcal",
+      "proteinContent": "46 g",
+      "carbohydrateContent": "18 g",
+      "fatContent": "32 g"
+    },
+    "author": { "@type": "Organization", "name": "ChatGPT Meal Builder" }
+  }
+]

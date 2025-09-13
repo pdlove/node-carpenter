@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "/vendor/preact/hooks.mjs";
 
 import { apiCall } from "/userStore.js";
 import TemplateScreen from "./TemplateScreen.jsx"
+import TemplateForm from "./TemplateForm.jsx"
+import ScheduleForm from "./ScheduleForm.jsx"
 
 export function JobManagementApp() {
   const [loading, setLoading] = useState(false);
@@ -453,7 +455,7 @@ export function JobManagementApp() {
                 onClick={closeModal}
                 className="text-gray-400 hover:text-gray-600"
               >
-                <X className="w-6 h-6" />
+                <i className="bi bi-x-fill w-6 h-6"></i>
               </button>
             </div>
 

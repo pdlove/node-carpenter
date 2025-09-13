@@ -1,7 +1,9 @@
 import { h, render, Fragment } from "/vendor/preact/preact.mjs";
 import { useEffect, useMemo, useRef, useState } from "/vendor/preact/hooks.mjs";
 
-export default ScheduleForm({ schedule, templates, onSave });
+import { apiCall } from "/userStore.js";
+
+export default function ScheduleForm({ schedule, templates, onSave })
 {
   const [formData, setFormData] = useState({
     name: schedule?.name || "",
@@ -320,7 +322,7 @@ export default ScheduleForm({ schedule, templates, onSave });
           type="submit"
           className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 flex items-center space-x-2"
         >
-          <Save className="w-4 h-4" />
+          <i class="bi bi-floppy-fill "></i>
           <span>Save Schedule</span>
         </button>
       </div>
